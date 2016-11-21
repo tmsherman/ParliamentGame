@@ -1,0 +1,34 @@
+events:
+  - event-description: |
+      "This is the text of the event that the streamer sees and makes their choices based off of. It can be multiple lines.
+      
+      It can have newlines."
+    event-tag: "event-example-tag"
+    event-requirements: {requirementTag0: true,requirementTag1: true, magic: 10}
+    choices:
+      - choiceText: "This is the text for the 1st choice." #What the player sees.
+        choiceTag: "choice-example-tag" #A tag for other events requirements.
+        choiceRequirements: {requirementTag0: true, requirementTag1: true} #The event can't happen unless these tags are present.
+        stateChanges: {military: 1, diplomacy: -1, noble: 10, merchant: -10, peasant: -20} #These are changes, not sets.                                                                                           magic is not listed so it has no change (implicit 0).  
+      - choiceText: "This is the text for the 2nd choice." #What the player sees.
+        choiceTag: "choice-example2-tag" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {requirementTag0: true, requirementTag1: true, magic: 10} #The choice can't happen unless these tags are present.
+        stateChanges: {military: 1, diplomacy: -1, noble: 10, merchant: -10, peasant: -20} #These are changes, not sets.
+        nextEventTag: "next-event-tag" #optional
+
+  - event-description: |
+      "This is the text of the event that the streamer sees and makes their choices based off of. It can be multiple lines.
+      
+      It can have newlines."
+    event-tag: "event-example-tag"
+    event-requirements: {requirementTag0: true, requirementTag1: true, magic: 10}
+    choices:
+      - choiceText: "This is the text for the 1st choice." #What the player sees.
+        choiceTag: "choice-example-tag" #A tag for other events requirements.
+        choiceRequirements: {requirementTag0: true, requirementTag1: true} #The event can't happen unless these tags are present.
+        stateChanges: {military: 1, diplomacy: -1, noble: 10, merchant: -10, peasant: -20} #These are changes, not sets.                                                                                           magic is not listed so it has no change (implicit 0).  
+      - choiceText: "This is the text for the 2nd choice." #What the player sees.
+        choiceTag: "choice-example2-tag" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {requirementTag0: true, requirementTag1: true, magic: 10} #The choice can't happen unless these tags are present.
+        stateChanges: {military: 1, diplomacy: -1, noble: 10, merchant: -10, peasant: -20} #These are changes, not sets.
+        nextEventTag: "next-event-tag" #optional
