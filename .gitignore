@@ -70,3 +70,7 @@ Library/LastSceneManagerSetup.txt
 # Builds
 *.apk
 *.unitypackage
+
+ # Web client #
+ # =============== #
+node_modules/
