@@ -5,9 +5,11 @@ public class moveDownScript : MonoBehaviour {
 
 	public bool activated = false;
 
+	private GameObject guyINeedToTouchOrReferenceOrWhatever;
+
 	// Use this for initialization
 	void Start () {
-	
+		guyINeedToTouchOrReferenceOrWhatever = GameObject.Find ("King");
 	}
 	
 	// Update is called once per frame
