@@ -1,0 +1,47 @@
+events:
+  - event-description: |
+      """
+      It is late, very late. Everyone else in the castle has gone to bed, but you are still awake. The candle by your desk flickers, and then goes out. You think you hear something—or maybe it’s just your imagination. Then, you hear it again. Slowly, the hairs on your arm stand up…  
+      Suddenly, a ghost appears before you, a mere foot from your face. You yelp in fright, then have to bite your tongue to keep from screaming again as more ghosts appear, until they surround you. The ghosts are all dressed in fine clothes, and some are wearing crowns. Familiar crowns… 
+      The ghost directly before you sighs. “<Ruler> <PlayerName>,” it intones. “We are the ghosts of rulers past. We have come to warn you…” It raises its spectral arms, and you see a gruesome stab wound in its side. “Do not make the same mistakes we did! Heed your people, rule wisely but fairly, learn from our mistakes…”
+      The ghosts crowd closer in around you. Your teeth are chattering. They do not seem as though they are going to leave anytime soon. What do you do?
+      """
+    event-type: "streamer" #can be streamer, peasant, noble, or merchant
+    event-tag: "haunting1"
+    event-requirements: {haunting1: false,numevents: 3} #numevents: the number of events the player has already seen
+    choices:
+      - choiceText: "Plead with the ghosts to leave you alone. You swear that you will be a good ruler, live long, and not make the same mistakes they did." #What the player sees.
+        choiceTag: "haunting1-persuade" #A tag for other events requirements.
+        choiceRequirements: {diplomacy: 65, happiness: 50, wealth: 50, power: 50} #The event can't happen unless these tags are present.
+          # Need to be moderately persuasive (early in the game)
+          # country needs to be in okay shape, otherwise the ghosts will be like "nah man, we don't believe you, your kingdom sucks"
+        stateChanges: {diplomacy: +3, happiness: +5, wealth: +5, power: +5, hauntmore: false} # no more hauntings after this
+        outcomeText:
+        """
+        “Very well,” the ghost says, sounding… disappointed? “We can tell when we’re not wanted. We will let you be. Rule wisely.” And then—suddenly—they are gone, and the room is once again filled with darkness.
+        """
+      - choiceText: "Threaten the ghosts to leave you alone, or else when you die, you’ll make fun of them forever in the afterlife." #What the player sees.
+        choiceTag: "haunting1-threaten" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {military: 75, diplomacy: 55} #The choice can't happen unless these tags are present.
+        stateChanges: {diplomacy: +3, military: +3, hauntmore: false}
+        outcomeText: """
+        “Very well,” the ghost says, sounding… disappointed? “We can tell when we’re not wanted. We will let you be. Rule wisely.” And then—suddenly—they are gone, and the room is once again filled with darkness.
+        """
+      - choiceText: "Try to remember a spell you learned for banishing ghosts. Wait, did it need special materials? You hope this works!"
+        choiceTag: "haunting1-magic"
+        choiceRequirements: {magic: 85}
+        stateChanges: {magic: +5, power: +3, hauntmore: false}
+        outcomeText: """
+        “Very well,” the ghost says, sounding… disappointed? “We can tell when we’re not wanted. We will let you be. Rule wisely.” And then—suddenly—they are gone, and the room is once again filled with darkness.
+        """
+      - choiceText: "\“Please, spirits! Give me advice! Tell me what I must do to avoid the same fates as you!\”"
+        choiceTag: "haunting1-advice"
+        choiceRequirements: {} #none
+        stateChanges: {"random +3 boost to military, magic, or diplomacy", hauntmore: true}
+        outcomeText: "The lead ghost nods. \“A wise decision. Learn well, young ruler, and prosper as we did not. We will visit again.\” And then—suddenly—they are gone, and the room is once again filled with darkness."
+    """
+    choice-fail:
+      choiceTag: \"haunting1-failure\"
+      stateChanges: {happiness: -1, power: -1, wealth: -1, hauntmore: true} # your people don't like that their ruler is haunted
+      outcomeText: \"The lead ghost laughs. \“You will not be rid of us that easily!\” The ghosts seem to multiply and grow, until they are filling the entire room, haunting visions of death. \“Remember this visit, young ruler! You cannot escape your past!\” And then—suddenly—they are gone, and the room is once again filled with darkness.\"
+    """
