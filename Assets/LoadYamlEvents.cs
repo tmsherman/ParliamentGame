@@ -47,11 +47,22 @@ public class LoadYamlEvents : MonoBehaviour
 		Debug.Log ("started");
 
 		//TextAsset mydata = Resources.Load ("yamlexample") as TextAsset;
+		UnityEngine.Object[] loadedEvents = Resources.LoadAll("YamlEvents");
+		print ("loadedEvents length: " + loadedEvents.Length);
 		TextAsset mytxtData = Resources.Load("yamlexample") as TextAsset;
 		string txt=mytxtData.text;
+		LoadEventFromText (txt);
 
+		for (int i = 0; i < loadedEvents.Length; i++) {
+			TextAsset ta = (loadedEvents [i] as TextAsset);
+			print (ta.name);
+			LoadEventFromText (ta.text);
+		}
+
+	}
+
+	void LoadEventFromText(string txt) {
 		StringReader input = new StringReader (txt);
-
 		YamlStream yaml = new YamlStream ();
 		yaml.Load (input);
 
@@ -81,6 +92,8 @@ public class LoadYamlEvents : MonoBehaviour
 					r.tag = key.ToString ();
 					if (requirement.Children [key].ToString () == "true") {
 						r.value = 1;
+					} else if (requirement.Children [key].ToString () == "false") {
+						r.value = 0;
 					} else {
 						r.value = Int32.Parse (requirement.Children [key].ToString ());
 					}
@@ -104,6 +117,8 @@ public class LoadYamlEvents : MonoBehaviour
 						r.tag = key.ToString ();
 						if (requirement.Children [key].ToString () == "true") {
 							r.value = 1;
+						} else if (requirement.Children [key].ToString () == "false") {
+							r.value = 0;
 						} else {
 							r.value = Int32.Parse (requirement.Children [key].ToString ());
 						}
@@ -120,6 +135,8 @@ public class LoadYamlEvents : MonoBehaviour
 						sc.key = key.ToString ();
 						if (stateChange.Children [key].ToString () == "true") {
 							sc.value = 1;
+						} else if (stateChange.Children [key].ToString () == "false") {
+							sc.value = 0;
 						} else {
 							sc.value = Int32.Parse (stateChange.Children [key].ToString ());
 						}
@@ -128,17 +145,18 @@ public class LoadYamlEvents : MonoBehaviour
 					}
 				}
 			}
-				
+
 			streamerEvents.Add(e);
 		}
 		Debug.Log (output);
 
-			
+
 
 
 		Debug.Log ("finished");
+
 	}
-	
+
 	// Update is called once per frame
 	void Update ()
 	{

@@ -1,8 +1,9 @@
-  - event-description: |
+events:
+  - eventDescription: |
       "You have died." # going full-on dark souls here
-    event-type: "streamer" #can be streamer, peasant, noble, or merchant
-    event-tag: "streamer-death"
-    event-requirements: {game-over: true}
+    eventType: "streamer" #can be streamer, peasant, noble, or merchant
+    eventTag: "streamer-death"
+    eventRequirements: {game-over: true}
     # we can present playing again within the choice format, or it can be a separate thing?
     choices:
       - choiceText: "Start a new game." #starts a new game

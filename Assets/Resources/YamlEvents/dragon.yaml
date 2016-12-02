@@ -1,24 +1,25 @@
-  - event-description: |
+events:
+  - eventDescription: |
       "You hear shrieks from outside the window. You turn to look out, and see fires—riots? But then, a massive winged shape flies across the sky, briefly blocking out the sun. A stab of terror pierces you. Dragon."
-    event-type: "streamer" #can be streamer, peasant, noble, or merchant
-    event-tag: "dragon"
-    event-requirements: {wealth: 90, dragon-dead: false}
+    eventType: "streamer" #can be streamer, peasant, noble, or merchant
+    eventTag: "dragon"
+    eventRequirements: {wealth: 90, dragon-dead: false}
     # needs to be something to attract dragon? possibly a length of play rather than wealth
     choices:
       - choiceText: "Frantically concoct a spell that will take down the dragon. The only way to fight a magical creature... is with magic." #What the player sees.
         choiceTag: "dragon-magic" #A tag for other events requirements.
         choiceRequirements: {magic: 95} #The event can't happen unless these tags are present.
-        stateChanges: {happiness: +10, power: +10, wealth: +10, magic: -20, dragon-dead: true} #These are changes, not sets. magic is not listed so it has no change (implicit 0).  
+        stateChanges: {happiness: 10, power: 10, wealth: 10, magic: -20, dragon-dead: true} #These are changes, not sets. magic is not listed so it has no change (implicit 0).  
         outcomeText: "The people are ecstatic that you’ve saved them, but your magic is drained. You doubt if you’ll ever be able to pull off a spell like that again."
       - choiceText: "Summon the army, especially the catapults and trebuchets. You will kill the beast, with your own two hands, if need be!" #What the player sees.
         choiceTag: "dragon-military" #A tag for other events requirements. Goes in a dictionary in the game.
         choiceRequirements: {military: 95} #The choice can't happen unless these tags are present.
-        stateChanges: {happiness: +10, power: +10, wealth: +10, military: -20, dragon-dead: true}#These are changes, not sets.
+        stateChanges: {happiness: 10, power: 10, wealth: 10, military: -20, dragon-dead: true} #These are changes, not sets.
         outcomeText: "The people are ecstatic that you’ve saved them, but your army has taken a significant hit, and you were injured. It’ll take a while before you can get yourself and your army back into its previous shape."
       - choiceText: "Dragons are sentient creatures, right? Perhaps you can reason with it? You’ve been told you have a silver tongue. You just hope that doesn’t mean the dragon will want to take it."
         choiceTag: "dragon-diplomacy"
         choiceRequirements: {diplomacy: 95}
-        stateChanges: {happiness: +10, power: +10, wealth: +10, diplomacy: -10, dragon-dead: false}
+        stateChanges: {happiness: 10, power: 10, wealth: 10, diplomacy: -10, dragon-dead: false}
         outcomeText: "The people are ecstatic that you’ve saved them, and amazed that you did so with only your words. For your part, you are severely shaken. The dragon had horrible breath, and it will take some time for you to regain your composure. And the dragon may return."
       - choiceText: "There’s no hope of defeating this beast. Perhaps you can offer it a gift of gold or food to placate it and keep it from further ravaging the kingdom. It will have to be a fairly significant gift, though..."
         choiceTag: "dragon-give"
