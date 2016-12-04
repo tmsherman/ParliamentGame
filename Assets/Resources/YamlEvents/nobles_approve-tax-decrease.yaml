@@ -1,0 +1,20 @@
+events:
+  - eventDescription: |
+      "The king returns your proposed tax bill with a suggestion to decrease the tax. If you approve the change, the new tax goes into effect immediately. If you reject the change, the bill dies and a new tax is not enacted at all.
+      Approve decrease to new tax?"
+
+      # if the tax passes, it will increase power at the expense of wealth
+    eventType: "noble" #can be streamer, peasant, noble, or merchant
+    eventTag: "approve-tax-decrease"
+    eventRequirements: {change-tax-decrease: true}
+    choices:
+      - choiceText: "Yes"
+        choiceTag: "approve-tax-decrease-yes"
+        choiceRequirements: {} # none
+        stateChanges: {wealth: -5, power: 5} #if these values are changed, make sure to change the stateChanges values in change-tax and approve-tax-decrease as well!
+        outcomeText: "You vote to approve the <king>'s suggested decrease to the new tax. Well, you won't be gaining as much power from this new tax as you would otherwise, but it's still a win, right?"
+      - choiceText: "No" #What the player sees.
+        choiceTag: "approve-tax-decrease-no"
+        choiceRequirements: {} #none
+        stateChanges: {} #no bill is passed, so nothing happens
+        outcomeText: "With a majority of votes against it, the tax bill fails to pass the noble court. Taxes will stay the same, for now. But who knows? Maybe a new tax bill will be proposed later."

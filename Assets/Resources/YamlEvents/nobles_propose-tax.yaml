@@ -1,0 +1,23 @@
+events:
+  - eventDescription: |
+      "The kingdom has become wealthy enough to present you, nobles, with a special opportunity. Someone in the noble court has proposed a new tax that would help turn some of this new wealth into more power for the country.
+      This new tax bill is now set before the noble court to be voted on. If it passes the court, it will go to the <king> to approve, veto, or change.
+      Increase taxes?"
+
+      # if the tax passes, it will increase power at the expense of wealth
+    eventType: "noble" #can be streamer, peasant, noble, or merchant
+    eventTag: "propose-tax"
+    eventRequirements: {wealth: 75,happiness: 65}
+    # high wealth & moderately high happiness
+    choices:
+      - choiceText: "Yes" #What the player sees.
+        choiceTag: "propose-tax-yes" #A tag for other events requirements.
+        choiceRequirements: {} #The event can't happen unless these tags are present.
+        stateChanges: {} #no changes take place until the final event
+        nextEventTag: "change-tax"
+        outcomeText: "With a majority of votes in favor, the new tax bill now goes to the <king>. If the <king> decides to propose a change to the bill, it will return to the noble court to get a final vote."
+      - choiceText: "No" #What the player sees.
+        choiceTag: "propose-tax-no" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {} #The choice can't happen unless these tags are present.
+        stateChanges: {} #nothing happens
+        outcomeText: "With a majority of votes against it, the tax bill fails to pass the noble court. Taxes will stay the same, for now. But who knows? Maybe a new tax bill will be proposed later."
