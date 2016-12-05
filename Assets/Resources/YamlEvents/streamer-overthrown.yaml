@@ -1,0 +1,26 @@
+events:
+  - eventDescription: |
+      "There is a noise growing outside your palace. It sounds like a crowd, screaming. No... singing.
+      Your advisor pokes her head into your thrown room, face pale. \"Your highness! Do you hear the people sing?\"
+      \"Sing what?\" you ask, just before the noise reaches an unbearable level. Suddenly, the doors to your throne room burst open and your advisor is pushed aside by a mob of peasants.
+      \"Viva la revolution!\" the lead peasant screams.
+      As the mob evicts you from your throne, you wonder if you could've seen this coming. This is what you get for giving peasants rights--they get ideas. And then do them.
+
+      You have been overthrown by the pesants' popular revolution. So ends your reign. Maybe they'll let you be a citizen now?"
+    eventType: "streamer" #can be streamer, peasant, noble, or merchant
+    eventTag: "streamer-overthrown"
+    eventRequirements: {game-over: true}
+    choices:
+      - choiceText: "Start a new game." #What the player sees.
+        choiceTag: "new-game" #A tag for other events requirements.
+        choiceRequirements: {} #The event can't happen unless these tags are present.
+        stateChanges: {} #These are changes, not sets. magic is not listed so it has no change (implicit 0).  
+        outcomeText: ""
+      - choiceText: "Quit." #What the player sees.
+        choiceTag: "quit-game" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {} #The choice can't happen unless these tags are present.
+        stateChanges: {} #These are changes, not sets.
+        outcomeText: ""
+      # note to self: can create another set of events-- give streamer choice to protest or step down
+      # then give peasants option to execute the ruler or not
+      # for later, tho

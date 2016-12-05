@@ -1,0 +1,18 @@
+events:
+  - eventDescription: |
+      "You have died." # going full-on dark souls here
+    eventType: "streamer" #can be streamer, peasant, noble, or merchant
+    eventTag: "streamer-death"
+    eventRequirements: {game-over: true}
+    # we can present playing again within the choice format, or it can be a separate thing?
+    choices:
+      - choiceText: "Start a new game." #starts a new game
+        choiceTag: "new-game" #A tag for other events requirements.
+        choiceRequirements: {} #The event can't happen unless these tags are present.
+        stateChanges: {} #These are changes, not sets. magic is not listed so it has no change (implicit 0).  
+        outcomeText: "" #
+      - choiceText: "Quit." #What the player sees.
+        choiceTag: "quit-game" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {} #The choice can't happen unless these tags are present.
+        stateChanges: {} #These are changes, not sets.
+        outcomeText: ""

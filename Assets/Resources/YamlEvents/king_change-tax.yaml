@@ -1,0 +1,38 @@
+events:
+  - eventDescription: |
+      "A proposal for a new tax has just come from the noble court. The tax will help increase the power of the court, but may put a strain on the wealth-earning classes.
+      You can approve the new tax. You can suggest a change to the tax bill, but the nobles will have to approve this change. Or you can veto the tax -- but that may ruffle some feathers among the nobles."
+
+      # if the tax passes, it will increase power at the expense of wealth
+      # we want the stremer to negotiate with the noble and merchant audience members to pick one choice or the other
+    eventType: "streamer" #can be streamer, peasant, noble, or merchant
+    eventTag: "change-tax"
+    eventRequirements: {propose-tax-yes: true} # follows only after event propose-tax, and if majority of nobles voted yes
+    choices:
+        # choice 1: increase proposed tax (wealth will decrease by a larger amount; power will increase by a larger amount)
+      - choiceText: "Increase the tax!"
+        choiceTag: "change-tax-increase"
+        choiceRequirements: {} #none: any persuasion will have to be done by the player themself, not by their diplomacy stat
+        stateChanges: {} #no changes will take place until the bill is approved by the nobles
+        nextEventTag: "approve-tax-increase"
+        outcomeText: "You send the bill back to the noble court with your proposed increase to the tax. Maybe you should talk to some of the nobles to convince them to approve your change?"
+        # choice 2: decrease proposed tax (wealth will decrease by a smaller amount; power will increase by a smaller amount)
+      - choiceText: "Decrease the tax!"
+        choiceTag: "change-tax-decrease" 
+        choiceRequirements: {} #none: any persuasion will have to be done by the player themself, not by their diplomacy stat
+        stateChanges: {} #no changes will take place until the bill is approved by the nobles
+        nextEventTag: "approve-tax-decrease"
+        outcomeText: "You send the bill back to the noble court with your proposed decrease to the tax. Maybe you should talk to some of the nobles to convince them to approve your change?"
+        # choice 3: approve tax bill as-is
+      - choiceText: "Approve the new tax as-is."
+        choiceTag: "king-approve-tax"
+        choiceRequirements: {} #signing the bill shouldn't take any special abilities... i'd hope
+        stateChanges: {wealth: -10, power: 10} # if you change these values, make sure to change the stateChange values in the approve-tax-increase and approve-tax-decrease events as well
+        # currently, no nextEventTag, but consider: approval of a tax sparking a new event for the merchant class to protest this tax?
+        outcomeText: "You approve the new tax bill as-is. That ought to make the nobles happy, but you hope the merchants aren't too upset."
+        # choice 4: veto tax bill
+      - choiceText: "Veto the new tax completely."
+        choiceTag: "king-veto-tax"
+        choiceRequirements: {} #vetoing the bill shouldn't take any special abilities
+        stateChanges: {} #the game state doesn't change. ideally, the audience members playing the nobles are upset, but this is not reflected with in-game stats.
+        outcomeText: "You veto the new tax bill. Off it goes to the garbage bin! You hope the nobles aren't too upset." 

@@ -1,0 +1,23 @@
+events:
+  - eventDescription: |
+      "Life is going surprisingly well, especially considering that you’re in the lowest class of the kingdom. Despite your lowly status, you’re healthy, well-educated, pretty well-off. So are all your neighbors.
+      In fact, pretty much the only thing really holding you back right now is... the <king>. Well, the <king>, the middle class, and the upper class.
+      At this point, you don’t really need any them--you and the rest of the peasants can practically run the country yourselves! You’ll have to change your name from peasants, though. Maybe citizens?
+      
+      Well, how about it? Do you want a revolution?"
+    eventType: "peasant" #can be streamer, peasant, noble, or merchant
+    eventTag: "popular-revolution"
+    eventRequirements: {happiness: 70, happiness-higher-than-wealth-and-power: true}
+    # needs to be arbitrarily decently high, and higher than the other classes' stats
+    choices:
+      - choiceText: "Yes" #What the player sees.
+        choiceTag: "revolt-yes" #A tag for other events requirements.
+        choiceRequirements: {} #Majority of peasants vote yes
+        stateChanges: {game-over: true}
+        outcomeText: "You did overthrow the king: Congrats! You won!"
+        nextEventTag: "streamer-overthrown"
+      - choiceText: "No" #What the player sees.
+        choiceTag: "revolt-no"
+        choiceRequirements: {} #Majority of peasants vote no
+        stateChanges: {game-over: false}
+        outcomeText: "You didn't overthrow the king"
