@@ -1,0 +1,18 @@
+{
+  "name": "parliament-web-client",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/entry.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^3.6.2",
+    "twitch": "0.0.1",
+    "twitch-api": "^0.4.5",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  }
+}

@@ -23,7 +23,7 @@ module.exports = {
     }
 };
 
-var wbpack = require('webpack');
+var webpack = require('webpack');
 new webpack.ProvidePlugin({
     $: "jquery",
     jQuery: "jquery",
