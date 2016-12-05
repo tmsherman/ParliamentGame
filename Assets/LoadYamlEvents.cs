@@ -13,6 +13,8 @@ using YamlDotNet.Serialization;
 public class LoadYamlEvents : MonoBehaviour
 {
 
+	public enum EVENT_TYPE { STREAMER, PEASANT, MERCHANT, NOBLE, BAD };
+
 	public struct Requirement {
 		public string tag;
 		public int value;
@@ -29,16 +31,23 @@ public class LoadYamlEvents : MonoBehaviour
 		public List<Requirement> choiceRequirements;
 		public List<StateChange> stateChanges;
 		public string nextEventTag;
+		public string outcomeText;
 	}
 
-	public struct StreamerEvent {
+	public struct GameEvent {
 		public string eventDescription;
 		public string eventTag;
 		public List<Requirement> eventRequirements;
 		public List<Choice> choices;
+		public EVENT_TYPE type;
 	}
 
-	private List<StreamerEvent> streamerEvents = new List<StreamerEvent> ();
+	public static GameEvent BAD_EVENT;
+
+	private List<GameEvent> rulerEvents = new List<GameEvent> ();
+	private List<GameEvent> peasantEvents = new List<GameEvent> ();
+	private List<GameEvent> merchantEvents = new List<GameEvent> ();
+	private List<GameEvent> nobleEvents = new List<GameEvent> ();
 
 
 	// Use this for initialization
@@ -46,22 +55,57 @@ public class LoadYamlEvents : MonoBehaviour
 	{
 		Debug.Log ("started");
 
-		//TextAsset mydata = Resources.Load ("yamlexample") as TextAsset;
-		UnityEngine.Object[] loadedEvents = Resources.LoadAll("YamlEvents");
-		print ("loadedEvents length: " + loadedEvents.Length);
-		TextAsset mytxtData = Resources.Load("yamlexample") as TextAsset;
-		string txt=mytxtData.text;
-		LoadEventFromText (txt);
+		BAD_EVENT = new GameEvent();
+		BAD_EVENT.eventDescription = "BAD EVENT";
+		BAD_EVENT.eventTag = "BAD_EVENT";
+		BAD_EVENT.type = EVENT_TYPE.BAD;
+
+		LoadEventsFromFolder ("RulerEvents", ref rulerEvents);
+		LoadEventsFromFolder ("PeasantEvents", ref peasantEvents);
+		LoadEventsFromFolder ("MerchantEvents", ref merchantEvents);
+		LoadEventsFromFolder ("NobleEvents", ref nobleEvents);
+
+
+	}
+
+	public GameEvent FetchEventByTag (string eventTag) {
+		foreach (GameEvent e  in rulerEvents) {
+			if (e.eventTag == eventTag) {
+				return e;
+			}
+		}
+		foreach (GameEvent e  in peasantEvents) {
+			if (e.eventTag == eventTag) {
+				return e;
+			}
+		}
+		foreach (GameEvent e  in merchantEvents) {
+			if (e.eventTag == eventTag) {
+				return e;
+			}
+		}
+		foreach (GameEvent e  in nobleEvents) {
+			if (e.eventTag == eventTag) {
+				return e;
+			}
+		}
+		return BAD_EVENT;
+	}
+
+	//folder is in the Resources folder.
+	void LoadEventsFromFolder(string folderName, ref List<GameEvent> list) {
+		UnityEngine.Object[] loadedEvents = Resources.LoadAll(folderName);
+		print ("from folder " + folderName + ", loadedEvents length: " + loadedEvents.Length);
 
 		for (int i = 0; i < loadedEvents.Length; i++) {
 			TextAsset ta = (loadedEvents [i] as TextAsset);
 			print (ta.name);
-			LoadEventFromText (ta.text);
+			LoadEventFromText (ta.text, ref list);
 		}
 
 	}
 
-	void LoadEventFromText(string txt) {
+	void LoadEventFromText(string txt, ref List<GameEvent> list) {
 		StringReader input = new StringReader (txt);
 		YamlStream yaml = new YamlStream ();
 		yaml.Load (input);
@@ -81,7 +125,7 @@ public class LoadYamlEvents : MonoBehaviour
 
 		var items = (YamlSequenceNode)mapping.Children [new YamlScalarNode ("events")];
 		foreach (YamlMappingNode item in items) {
-			StreamerEvent e = new StreamerEvent();
+			GameEvent e = new GameEvent();
 			e.eventDescription = item.Children [new YamlScalarNode ("eventDescription")].ToString();
 			e.eventTag = item.Children [new YamlScalarNode ("eventTag")].ToString ();
 			e.eventRequirements = new List<Requirement>();
@@ -146,7 +190,7 @@ public class LoadYamlEvents : MonoBehaviour
 				}
 			}
 
-			streamerEvents.Add(e);
+			list.Add(e);
 		}
 		Debug.Log (output);
 
