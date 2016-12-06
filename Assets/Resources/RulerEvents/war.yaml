@@ -1,0 +1,30 @@
+events:
+  - eventDescription: |
+      "You are a ruler that prides yourself on your superb sense of humor, according to your court jesters, of course if they ever offended you they probably would be banished or worse. 
+      Anyways, perhaps this time you crossed the line. The neighboring country of BeepBoop has declared war on your country after being deeply offended by one of your crude jokes on the name of their country. 
+      Quoting the ruler of BeepBoop’s court secretary, your Royal Highness would not stop screeching, \“BeepBoop, BeepBoop out of my way you slow drivers, whilst imitating a wagon through repeated pleading attempts to stop.\” 
+      BeepBoop has a history of a staunch pride in their name and have no tolerance for taunting. 
+      What are you going to do, Your Royal jester, ahem, Highness?"
+
+    eventType: "streamer" #can be streamer, peasant, merchant, or noble
+    eventTag: "war1"
+    eventRequirements: {war1:false, events:3}
+    choices:
+      - choiceText: "Initiate warfare against BeepBoop, which would be benefitting to peasants who can fight and raise their social status if they fight well." #What the player sees.
+        choiceTag: "war1-fight" #A tag for other events requirements.
+        choiceRequirements: {happiness:60} #The event can't happen unless these tags are present.
+        stateChanges: {happiness:+5, wealth:-10, power:-5} #These are changes, not sets. 
+        outcomeText: "Your rash words now face the consequences of a prideful nation. BeepBoop was a fierce enemy but you manage to barely scrape a victory. However, your kingdom has lost a great deal of wealth and your diplomacy skills are now very poor. People are unhappy, but at least the peasants that rose up during the war benefitted by raising their social status and joined the merchant class."                                                     
+
+      - choiceText: "Attempt to negotiate a treaty with minimal jokes, which benefits nobles and merchants who have valuable trade deals with the nation of BeepBoop." #What the player sees.
+        choiceTag: "war1-treaty" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {wealth:50,power:50} #merchants and nobles must be powerful enough to have influence
+        stateChanges: {wealth:+5, power:+5} #merchants and nobles benefit, peasants are unaffected
+        outcomeText: "Diplomacy worked in favor for you. BeepBoop has agreed to reconcile and set aside war. Violence in this case was not the answer and merchants and nobles are overjoyed that they will still be able to peacefully trade with their lucrative trade partners in BeepBoop. However, your pride is still a little hurt that BeepBoop didn’t find your jokes very funny."
+
+      - choiceText: "Make more crude jokes in hopes that they will understand how ridiculous their name is and change it and everyone lives happily." #What the player sees.
+        choiceTag: "war1-joke" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {} #High power for nobles to do this
+        stateChanges: {wealth: +5, happiness:+5, power:+5} #peasants and merchants and nobles all benefit through this choice
+        outcomeText: "Amazing! If there is anyone that can break down a prideful nation’s pride through hearty humor it is you <Ruler> <PlayerName>. BeepBoop has realized that they were being quite immature and that yes you are, ahem, hilarious. The nation is happy and pleased that someone who has top-notch diplomatic humor and tact rules them."
+        
