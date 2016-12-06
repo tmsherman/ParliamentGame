@@ -1,0 +1,21 @@
+events:
+  - eventDescription: |
+      "There is an ominous feeling in the air. The people in the town square are uneasy as they feel something terrible about to happen. The kingdom has been on the decline, the classes are unsettled and there is much political unease.
+        Suddenly, an old widow whispers to you. \"<Ruler><PlayerName>, if you do not take action quickly the kingdom will crumble under a plague that is worse than man’s diseases, it will take down classes and create unrest and quite likely dethrone you. May you make the wise decision.\"
+        What are you going to do to prevent this plague?"
+
+    eventType: "streamer" #can be streamer, peasant, noble, or merchant
+    eventTag: "plague1"
+    eventRequirements: {plague1:false, events: 5}
+    choices:
+      - choiceText: "Spend a large amount of money to come up with a magic cure that they can put into the water that they drink" #What the player sees.
+        choiceTag: "plague1-spend " #A tag for other events requirements.
+        choiceRequirements: {wealth: 50} #The event can't happen unless these tags are present.
+        stateChanges: {diplomacy:+5, happiness:+6, wealth:-10, power:+5, plague1: true} #These are changes, not sets. magic is not listed so it has no change (implicit 0).  
+        outcomeText: "\“Wise choice,\” the old woman mysteriously smiles. \“The plague has been averted and the peasants rejoice! However, nobles and merchants have had to pay a hefty price for the magical cure through taxes on their scones, so I would be careful in the future to not further anger them.\”"
+      - choiceText: "This is the text for the 2nd choice." #What the player sees.
+        choiceTag: "choice-example2-tag" #A tag for other events requirements. Goes in a dictionary in the game.
+        choiceRequirements: {requirementTag0: true, requirementTag1: true, magic: 10} #The choice can't happen unless these tags are present.
+        stateChanges: {military: 1, diplomacy: -1, noble: 10, merchant: -10, peasant: -20} #These are changes, not sets.
+        nextEventTag: "next-event-tag" #optional
+        outcomeText: "This is the outcome Text"
