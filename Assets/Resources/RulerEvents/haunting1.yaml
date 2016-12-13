@@ -8,7 +8,7 @@ events:
       "
     eventType: "streamer" #can be streamer, peasant, noble, or merchant
     eventTag: "haunting1"
-    eventRequirements: {haunting1: false,numevents: 3} #numevents: the number of events the player has already seen
+    eventRequirements: {haunting1: false,events: 3} #events: the number of events the player has already seen
     choices:
       - choiceText: "Plead with the ghosts to leave you alone. You swear that you will be a good ruler, live long, and not make the same mistakes they did." #What the player sees.
         choiceTag: "haunting1-persuade" #A tag for other events requirements.
