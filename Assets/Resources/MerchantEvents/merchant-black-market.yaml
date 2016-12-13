@@ -1,6 +1,6 @@
-  events:
+events:
 
- - eventDescription: |
+  - eventDescription: |
       "As a merchant, the current tension with the nation of BeepBoop has been very cumbersome for trade deals since most trade has been banned with them. 
       Your business has taken quite the hit since BeepBoop is your main trade partner and you know that if you don’t do something soon you and your family will be out on the town streets. 
       You could however continue trading in the black market; however this is very risky. If you get caught you can be hanged for treason. So will you continue trade in the dangerous black market, or stick to your morals?”
@@ -13,11 +13,11 @@
         choiceTag: "black-market-yes"
         choiceRequirements: {} # none
         stateChanges: {wealth: +10}
-        outcomeText: "You have managed to successfully integrate your business into the black market. Hopefully you do not get caught. Your family is safe and happily fed for another day.”
+        outcomeText: "You have managed to successfully integrate your business into the black market. Hopefully you do not get caught. Your family is safe and happily fed for another day."
       - choiceText: "No" #What the player sees.
         choiceTag: "black-market-no"
         choiceRequirements: {} #none
-        stateChanges: {wealth:-10}
+        stateChanges: {wealth: -10}
         outcomeText: "Your business has gone under and the merchant class is on a continuous downhill descent as relations with BeepBoop gets worse. Hopefully, <Ruler> <PlayerName> does something soon or else there’ll be a riot within the merchant class."
 
 

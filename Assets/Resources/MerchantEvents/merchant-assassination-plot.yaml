@@ -1,6 +1,5 @@
-  events:
-
- - eventDescription: |
+events:
+  - eventDescription: |
       "The merchant class has had enough of the <Ruler> <PlayerName>’s wishy-washy decisions on whether or not to engage in warfare with BeepBoop. 
       Meanwhile, the merchant class is slowly disintegrating and more and more formerly wealthy merchants are now losing their land and wealth. 
       The merchant class has decided to unite and through a special deal with the nation of BeepBoop, if they sacrifice <Ruler> <PlayerName> and assassinate the king then the war talks will cease, a new ruler will be crowned, and trade may commence freely.
@@ -16,11 +15,11 @@
       - choiceText: "Yes"
         choiceTag: "assassinate-yes"
         choiceRequirements: {} # none
-        stateChanges: {game-over:true} #if these values are changed, make sure to change the stateChanges values in change-tax and approve-tax-decrease as well!
+        stateChanges: {game-over: true} #if these values are changed, make sure to change the stateChanges values in change-tax and approve-tax-decrease as well!
         outcomeText: "<Ruler> <PlayerName> has been assassinated."
       - choiceText: "No" #What the player sees.
         choiceTag: "assassinate-no"
         choiceRequirements: {} #none
-        stateChanges: {game-over:false} #no bill is passed, so nothing happens
+        stateChanges: {game-over: false} #no bill is passed, so nothing happens
         outcomeText: "You choose to be loyal to <Ruler> <PlayerName> who has a history of being nothing but benevolent to the merchants. The merchants decide to hope for the best in this trying situation and place all of their efforts against BeepBoop and for better trading deals through appeals to <Ruler> <PlayerName>."
 

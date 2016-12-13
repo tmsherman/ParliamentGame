@@ -8,28 +8,28 @@ events:
 
     eventType: "streamer" #can be streamer, peasant, merchant, or noble
     eventTag: "plague1"
-    eventRequirements: {plague1:false, events:5}
+    eventRequirements: {plague1: false, events: 5}
     choices:
       - choiceText: "Spend a large amount of money to come up with a magic cure that they can put into the water that they drink." #What the player sees.
         choiceTag: "plague1-spend" #A tag for other events requirements.
-        choiceRequirements: {wealth:50} #The event can't happen unless these tags are present.
-        stateChanges: {happiness:+5, wealth:-5, power:-5} #These are changes, not sets. 
-        outcomeText: "\“Wise choice,\” the old woman mysteriously smiles. \“The plague has been averted and the peasants rejoice! However, nobles and merchants have had to pay a hefty price for the magical cure through taxes on their scones, so I would be careful in the future to not further anger them.\”"                                                        
+        choiceRequirements: {wealth: 50} #The event can't happen unless these tags are present.
+        stateChanges: {happiness: +5, wealth: -5, power: -5} #These are changes, not sets. 
+        outcomeText: "\"Wise choice,\" the old woman mysteriously smiles. \"The plague has been averted and the peasants rejoice! However, nobles and merchants have had to pay a hefty price for the magical cure through taxes on their scones, so I would be careful in the future to not further anger them.\""                                                        
 
       - choiceText: "Allow certain cooperative merchants move up to a higher social status like noble if they can fight against the peasants that are starting to unite in order to overthrow the king." #What the player sees.
         choiceTag: "plague1-status" #A tag for other events requirements. Goes in a dictionary in the game.
-        choiceRequirements: {happiness:40} #Low happiness since peasants are being defeated
-        stateChanges: {wealth: +10, happiness:-10, power:-5} #peasants suffer the most, nobles suffer in loss of power, merchants gain the most
-        outcomeText: "\“Hmm… interesting choice,\” the old woman smiles. \“You are very smart about keeping yourself protected, however now the peasants feel oppressed and the nobles feel as though their status is being threatened. At least you have the merchant class loyal to the crown now. Good luck in the future.\"
+        choiceRequirements: {happiness: 40} #Low happiness since peasants are being defeated
+        stateChanges: {wealth: +10, happiness: -10, power: -5} #peasants suffer the most, nobles suffer in loss of power, merchants gain the most
+        outcomeText: "\"Hmm… interesting choice,\" the old woman smiles. \"You are very smart about keeping yourself protected, however now the peasants feel oppressed and the nobles feel as though their status is being threatened. At least you have the merchant class loyal to the crown now. Good luck in the future.\""
 
       - choiceText: "Exile many peasants/merchants who have been affected by the plague." #What the player sees.
         choiceTag: "plague1-exile" #A tag for other events requirements. Goes in a dictionary in the game.
-        choiceRequirements: {power:60} #High power for nobles to do this
-        stateChanges: {wealth: -10, happiness:-10, power:+5} #peasants and merchants suffer, nobles gain more power through this choice
-        outcomeText: "\“Are you sure you are the benevolent ruler you claim to be, <Ruler> <PlayerName>?\” The peasants and merchants that you have exiled are now plotting their revenge and your crown is in danger. However, you have greatly pleased the nobles, although there is still some doubt among them that you may turn your back on them as well one day. Be careful."
+        choiceRequirements: {power: 60} #High power for nobles to do this
+        stateChanges: {wealth: -10, happiness: -10, power: +5} #peasants and merchants suffer, nobles gain more power through this choice
+        outcomeText: "\"Are you sure you are the benevolent ruler you claim to be, <Ruler> <PlayerName>?\" The peasants and merchants that you have exiled are now plotting their revenge and your crown is in danger. However, you have greatly pleased the nobles, although there is still some doubt among them that you may turn your back on them as well one day. Be careful."
 
       - choiceText: "You can run away for a year and come back and hopefully the situation gets better." #What the player sees.
         choiceTag: "plague1-run" #A tag for other events requirements. Goes in a dictionary in the game.
         choiceRequirements: {} #Low happiness since peasants are being defeated
-        stateChanges: {wealth: -10, happiness:-10, power:-10} #everyone class suffers a lot
-        outcomeText: "\“Coward!\” the old woman yells. \“You dare leave your kingdom in ruins and leave them to fend for themselves?\” Your kingdom suffers in every way. Your people have become distrustful of you. Beware of your life."
+        stateChanges: {wealth: -10, happiness: -10, power: -10} #everyone class suffers a lot
+        outcomeText: "\"Coward!\" the old woman yells. \"You dare leave your kingdom in ruins and leave them to fend for themselves?\" Your kingdom suffers in every way. Your people have become distrustful of you. Beware of your life."
