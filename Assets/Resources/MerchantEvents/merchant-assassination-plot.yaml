@@ -17,6 +17,7 @@ events:
         choiceRequirements: {} # none
         stateChanges: {game-over: true} #if these values are changed, make sure to change the stateChanges values in change-tax and approve-tax-decrease as well!
         outcomeText: "<Ruler> <PlayerName> has been assassinated."
+        nextEventTag: "streamer-death"
       - choiceText: "No" #What the player sees.
         choiceTag: "assassinate-no"
         choiceRequirements: {} #none
