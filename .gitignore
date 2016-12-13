@@ -74,3 +74,6 @@ Library/LastSceneManagerSetup.txt
  # Web client #
  # =============== #
 node_modules/
+*.meta
+
+*.meta
