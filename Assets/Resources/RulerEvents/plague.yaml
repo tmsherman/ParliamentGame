@@ -1,10 +1,10 @@
 events:
   - eventDescription: |
       "There is an ominous feeling in the air. The people in the town square are uneasy as they feel something terrible about to happen. 
-      The kingdom has been on the decline, the classes are unsettled and there is much political unease. Suddenly, an old widow whispers to you. \“<Ruler> <PlayerName>, 
+      The kingdom has been on the decline, the classes are unsettled and there is much political unease. Suddenly, an old widow whispers to you. “<Ruler> <PlayerName>, 
       if you do not take action quickly the kingdom will crumble under a plague that is worse than man’s diseases, it will take down classes and create unrest and quite likely dethrone you. 
       May you make the wise decision.
-      \”What are you going to do to prevent this plague?"
+      ”What are you going to do to prevent this plague?"
 
     eventType: "streamer" #can be streamer, peasant, merchant, or noble
     eventTag: "plague1"

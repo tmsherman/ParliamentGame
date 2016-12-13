@@ -115,4 +115,16 @@ public class RunParliamentGame : MonoBehaviour {
 		LoadEvent (e);
 
 	}
+
+	public void onChoice1() {
+
+	}
+
+	public void onChoice2() {
+
+	}
+
+	public void onChoice3() {
+
+	}
 }
