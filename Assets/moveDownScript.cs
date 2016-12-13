@@ -9,14 +9,15 @@ public class moveDownScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		guyINeedToTouchOrReferenceOrWhatever = GameObject.Find ("King");
+		guyINeedToTouchOrReferenceOrWhatever = GameObject.Find ("Mage");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!activated)
 			return;
-		transform.position = new Vector3 (transform.position.x, transform.position.y + 1, transform.position.z);
+		if (guyINeedToTouchOrReferenceOrWhatever.transform.position.y < 1F)
+			transform.position = new Vector3 (transform.position.x, transform.position.y + 0.04F, transform.position.z);
 	}
 
 	public void Activate() {
