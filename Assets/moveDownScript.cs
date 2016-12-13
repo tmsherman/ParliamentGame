@@ -16,8 +16,8 @@ public class moveDownScript : MonoBehaviour {
 	void Update () {
 		if (!activated)
 			return;
-		if (guyINeedToTouchOrReferenceOrWhatever.transform.position.y < 0)
-			transform.position = new Vector3 (transform.position.x, transform.position.y + 1, transform.position.z);
+		if (guyINeedToTouchOrReferenceOrWhatever.transform.position.y < 1F)
+			transform.position = new Vector3 (transform.position.x, transform.position.y + 0.04F, transform.position.z);
 	}
 
 	public void Activate() {
