@@ -1,11 +1,9 @@
 events:
   - eventDescription: |
-      "
-      It is late, very late. Everyone else in the castle has gone to bed, but you are still awake. The candle by your desk flickers, and then goes out. You think you hear something—or maybe it’s just your imagination. Then, you hear it again. Slowly, the hairs on your arm stand up…  
+      "It is late, very late. Everyone else in the castle has gone to bed, but you are still awake. The candle by your desk flickers, and then goes out. You think you hear something—or maybe it’s just your imagination. Then, you hear it again. Slowly, the hairs on your arm stand up…  
       Suddenly, a ghost appears before you, a mere foot from your face. You yelp in fright, then have to bite your tongue to keep from screaming again as more ghosts appear, until they surround you. The ghosts are all dressed in fine clothes, and some are wearing crowns. Familiar crowns… 
       The ghost directly before you sighs. “<Ruler> <PlayerName>,” it intones. “We are the ghosts of rulers past. We have come to warn you…” It raises its spectral arms, and you see a gruesome stab wound in its side. “Do not make the same mistakes we did! Heed your people, rule wisely but fairly, learn from our mistakes…”
-      The ghosts crowd closer in around you. Your teeth are chattering. They do not seem as though they are going to leave anytime soon. What do you do?
-      "
+      The ghosts crowd closer in around you. Your teeth are chattering. They do not seem as though they are going to leave anytime soon. What do you do?"
     eventType: "streamer" #can be streamer, peasant, noble, or merchant
     eventTag: "haunting1"
     eventRequirements: {haunting1: false,events: 3} #events: the number of events the player has already seen
@@ -13,8 +11,8 @@ events:
       - choiceText: "Plead with the ghosts to leave you alone. You swear that you will be a good ruler, live long, and not make the same mistakes they did." #What the player sees.
         choiceTag: "haunting1-persuade" #A tag for other events requirements.
         choiceRequirements: {diplomacy: 65, happiness: 50, wealth: 50, power: 50} #The event can't happen unless these tags are present.
-          # Need to be moderately persuasive (early in the game)
-          # country needs to be in okay shape, otherwise the ghosts will be like "nah man, we don't believe you, your kingdom sucks"
+        # Need to be moderately persuasive (early in the game)
+        # country needs to be in okay shape, otherwise the ghosts will be like "nah man, we don't believe you, your kingdom sucks"
         stateChanges: {diplomacy: 3, happiness: 5, wealth: 5, power: 5, hauntmore: false} # no more hauntings after this
         outcomeText: "\"Very well,\" the ghost says, sounding… disappointed? \"We can tell when we’re not wanted. We will let you be. Rule wisely.\" And then—suddenly—they are gone, and the room is once again filled with darkness."
       - choiceText: "Threaten the ghosts to leave you alone, or else when you die, you’ll make fun of them forever in the afterlife." #What the player sees.
