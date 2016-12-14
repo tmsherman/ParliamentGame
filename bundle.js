@@ -551,7 +551,7 @@
 			'NOBLE': 'img/power.png',
 			'MERCHANT': 'img/wealth.png'
 		}
-		$("#role-text").text(role);
+		$("#role-text").html($('<p>').text(role));
 		$("#stats-symbol").attr('src', roleToSymbolMap[role]);
 	}
 
