@@ -3,8 +3,6 @@ events:
       "The kingdom has become wealthy enough to present you, nobles, with a special opportunity. Someone in the noble court has proposed a new tax that would help turn some of this new wealth into more power for the country.
       This new tax bill is now set before the noble court to be voted on. If it passes the court, it will go to the <king> to approve, veto, or change.
       Increase taxes?"
-
-      # if the tax passes, it will increase power at the expense of wealth
     eventType: "noble" #can be streamer, peasant, noble, or merchant
     eventTag: "propose-tax"
     eventRequirements: {wealth: 75,happiness: 65}

@@ -2,8 +2,6 @@ events:
   - eventDescription: |
       "The king returns your proposed tax bill with a suggestion to decrease the tax. If you approve the change, the new tax goes into effect immediately. If you reject the change, the bill dies and a new tax is not enacted at all.
       Approve decrease to new tax?"
-
-      # if the tax passes, it will increase power at the expense of wealth
     eventType: "noble" #can be streamer, peasant, noble, or merchant
     eventTag: "approve-tax-decrease"
     eventRequirements: {change-tax-decrease: true}
