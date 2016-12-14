@@ -6,7 +6,9 @@ Making changes / Developing
 ===========================
 To install dependencies: `npm install`
 Then to run: `webpack-dev-server --progress --colors`
-Open http://localhost:8080/webpack-dev-server/
+Open [http://localhost:8080/webpack-dev-server/](http://localhost:8080/webpack-dev-server/).
+
+Make sure to set the `redirect_uri` properly in the Twitch developer console!
 
 Deploying to prod (gh-pages)
 ============================
