@@ -17,9 +17,15 @@ var outcomesRef = fb.database().ref('/outcomes');
 var eventsRef = fb.database().ref('/events');
 var stateRef = fb.database().ref('/state');
 
+var loaded = false;
+module.exports.isLoaded = function() {
+	return loaded;
+};
+
 // Load the current state of the game, used to init game after
 // Twitch login and Unity server assigns role.
 module.exports.loadCurrentState = function() {
+	loaded = true;
 	// Listen for new outcomes, and if relevant, add to interface.
 	outcomesRef.on('child_added', function(snap) {
 		var outcome = snap.val();
