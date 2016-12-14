@@ -1,4 +1,4 @@
 module.exports = {
 	channel: "colegleason",
-	eventDuration: 300000 // seconds
-}
+	eventDuration: 30, // seconds
+};

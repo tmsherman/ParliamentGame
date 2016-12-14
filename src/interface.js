@@ -1,5 +1,6 @@
 var config = require('./config');
 var user = require('./user');
+var game = require('./game');
 
 var moment = require('moment');
 
@@ -23,6 +24,7 @@ function setupTimer(end) {
 		var now = moment.utc();
 		if (now > end) {
 			$('#timer').text('Voting Over');
+			$("#decisionbox").html(null);
 			disableVoteButtons();
 			clearInterval(interval);
 		} else {
@@ -33,11 +35,6 @@ function setupTimer(end) {
 }
 
 module.exports.displayEvent = function(eventKey, event) {
-	var start = moment.unix(event.utctime);
-	var end = start.add(config.eventDuration, 'seconds');
-	if (moment.utc() > end) {
-		return;
-	}
 	var eventHtml = $("<p>");
 	eventHtml.text(event.description);
 	$("#yes-btn").attr('name', eventKey)
@@ -47,6 +44,8 @@ module.exports.displayEvent = function(eventKey, event) {
 	  .val(event.choices[1].name)
 	  .prop('disabled', false);
 	$("#decisionbox").html(eventHtml);
+	var start = moment.unix(event.utctime);
+	var end = start.add(config.eventDuration, 'seconds');
 	setupTimer(end);
 }
 
@@ -56,10 +55,13 @@ module.exports.addOutcome = function(data) {
 	outcome.append($('<br />'));
 	Object.keys(data.changes).forEach(function(key) {
 		var val = data.changes[key];
-		var change = $("<span>");
-		change.addClass(val < 0 ? 'neg-change' : 'pos-change');
-		change.text((val < 0 ? '' : '+') + val + " " + key);
-		outcome.append(change);
+		var userRole = user.getUser().role;
+		if (val != 0 && key == game.roleToResourceMap[userRole]) {
+			var change = $("<span>");
+			change.addClass(val < 0 ? 'neg-change' : 'pos-change');
+			change.text((val < 0 ? '' : '+') + val + " " + key);
+			outcome.append(change);
+		}
 	});
 	$("#outcomebox").prepend(outcome);
 }
@@ -76,9 +78,9 @@ module.exports.setStatsLevel = function(percent) {
 
 module.exports.setStatsSymbol = function(role) {
 	var roleToSymbolMap = {
-		'peasant': '/img/qol.png',
-		'noble': '/img/power.png',
-		'merchant': '/img/wealth.png'
+		'PEASANT': '/img/qol.png',
+		'NOBLE': '/img/power.png',
+		'MERCHANT': '/img/wealth.png'
 	}
-	$("#stats-symbol").src(roleToSymbolMap[role]);
+	$("#stats-symbol").attr('src', roleToSymbolMap[role]);
 }

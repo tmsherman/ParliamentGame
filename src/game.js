@@ -1,11 +1,13 @@
 var fb = require('./firebase');
 var interface = require('./interface');
 var user = require('./user');
+var config = require('./config');
+var moment = require('moment');
 
 var roleToResourceMap = {
-	'peasant': 'happiness',
-	'noble': 'power',
-	'merchant': 'wealth'
+	'PEASANT': 'happiness',
+	'NOBLE': 'power',
+	'MERCHANT': 'wealth'
 };
 module.exports.roleToResourceMap = roleToResourceMap;
 
@@ -22,7 +24,15 @@ module.exports.loadCurrentState = function() {
 		}
 	});
 	eventsRef.on('child_added', function(snap) {
-		interface.displayEvent(snap.key, snap.val());
+		var event = snap.val();
+		var userRole = user.getUser().role;
+		var end = moment.unix(event.utctime)
+		  .add(config.eventDuration, 'seconds');
+		var now = moment.utc();
+		console.log(event, event.type == userRole, now < end);
+		if (event.type == userRole && now < end) {
+			interface.displayEvent(snap.key, snap.val());
+		}
 	});
 	stateRef.on('value', updateResources);
 }
