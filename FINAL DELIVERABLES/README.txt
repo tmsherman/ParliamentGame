@@ -1,5 +1,6 @@
 This game has 3 components: The Unity client, the python helper, and the web client.
 
+The unity client is in the zip file. The python helper is FirebaseHelper.py
 The web client is located at
 https://tmsherman.github.io/ParliamentGame/
 
