@@ -1,27 +1,31 @@
 var fb = require('./firebase');
+var game = require('./game');
 
-var user = null;
-
-function setUser(snap) {
-	user = snap.val();
-}
+var user = {};
 
 module.exports.initOrLoadUser = function(username) {
+	module.exports.username = username;
 	var userRef = fb.database().ref('/users/' + username);
 	userRef.once('value', function(snap) {
-		if (snap.val()) {
-			user = snap;
-		} else {
-			user = {status: 'online'};
-			userRef.set(user);
+		if (snap.val() == null) {
+			userRef.set({status: 'online'});
 		}
-		userRef.on('value', setUser);
-	})
+	});
+	var roleListener = userRef.child('type').on('value', function(snap) {
+		if (snap.val()) {
+			userRef.off('value', roleListener);
+			user.role = snap.val();
+			game.loadCurrentState();
+		}
+	});
 }
 
+module.exports.getUser = function() {
+	return user;
+}
 
-module.exports.getUser = function(cb) {
-	if (user != null) {
-		return cb(user);
-	}
+module.exports.vote = function(eventId, vote) {
+	fb.database()
+	.ref('/users/' + module.exports.username + '/votes/' + eventId)
+	.set(vote);
 }

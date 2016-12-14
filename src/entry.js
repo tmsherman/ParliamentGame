@@ -1,7 +1,4 @@
 require("../css/reset.css");
 require("../css/styles.css");
-require('./interface');
+require('./interface').init();
 require('./twitch');
-require('./user');
-require('./firebase');
-require('./game');
