@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class hoveredResource : MonoBehaviour
 {
 	public string stateKey;
+	public int numInorder;
 	private RunParliamentGame rpg;
 	private GameObject tooltip;
 
@@ -18,6 +20,11 @@ public class hoveredResource : MonoBehaviour
 		print (gameObject.name + " " + value);
 
 		tooltip.SetActive (true);
-		tooltip.transform.position = new Vector3 (Input.mousePosition.x + 50, Input.mousePosition.y, 0);
+		tooltip.transform.position = new Vector3 (110 * numInorder, -210, 0);
+		tooltip.GetComponentInChildren<Text> ().text = stateKey.Substring (0, 1).ToUpper () + stateKey.Substring (1) + ": " + value;
+	}
+
+	void OnMouseExit() {
+		tooltip.SetActive (false);
 	}
 }
