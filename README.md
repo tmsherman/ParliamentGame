@@ -1,3 +1,6 @@
+To play the game as is, for oroq's stream, go to [the hosted client](https://tmsherman.github.io/ParliamentGame/).
+
+Because this is using Firebase and Twitch APIs, you will have to setup new API information with them if you want to run this web-client elsewhere. See `src/config.js` as an example. You should also go here to change the stream and chat that are embedded.
 
 Making changes / Developing
 ===========================
