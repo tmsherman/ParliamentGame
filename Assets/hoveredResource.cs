@@ -13,11 +13,10 @@ public class hoveredResource : MonoBehaviour
 		rpg = GameObject.Find ("EventRunner").GetComponent<RunParliamentGame> ();
 		tooltip = GameObject.Find ("ResourceTooltip");
 	}
-
+	//show a tooltip when we mouseover a resource, and hide it when we mouseoff.
 	void OnMouseOver()
 	{
 		int value = rpg.getStateForKey (stateKey);
-		print (gameObject.name + " " + value);
 
 		tooltip.SetActive (true);
 		tooltip.transform.position = new Vector3 (110 * numInorder, -210, 0);

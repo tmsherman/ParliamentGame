@@ -229,6 +229,7 @@ public class RunParliamentGame : MonoBehaviour {
 						powerChange = c.stateChanges [i].value;
 					}
 				}
+				print (happinessChange);
 				data.Add (happinessChange);
 				data.Add (wealthChange);
 				data.Add (powerChange);
@@ -311,6 +312,10 @@ public class RunParliamentGame : MonoBehaviour {
 		LoadYamlEvents.GameEvent e = eventStorage.FetchEventByTag (currentEvent);
 		LoadYamlEvents.Choice c = e.choices [choiceNum];
 		state.Add (c.choiceTag, 1);
+		if (c.choiceTag == "quit-game") { 
+			Application.Quit ();
+		}
+
 		for (int i = 0; i < c.stateChanges.Count; i++) {
 			LoadYamlEvents.StateChange sc = c.stateChanges [i];
 			if (state.ContainsKey (sc.key)) {
@@ -319,6 +324,18 @@ public class RunParliamentGame : MonoBehaviour {
 				state.Add (sc.key, sc.value);
 			}
 		}
+
+		//in the future we'll have different choices lead into certain events using what's in YAML, but we hardcoded it here because it only works for certain events.
+		if (c.choiceTag == "propose-tax-yes") {
+			eventQueue.Insert (0, "change-tax");
+		}
+		if (c.choiceTag == "change-tax-increase") {
+			eventQueue.Insert (0, "approve-tax-increase");
+		}
+		if (c.choiceTag == "change-tax-decrease") {
+			eventQueue.Insert (0, "approve-tax-decrease");
+		}
+
 		postResourcesToFirebase ();
 		eventDescription.GetComponent<Text> ().text = c.outcomeText;
 		choice1Text.GetComponent<Text> ().text = "OK";

@@ -44,8 +44,10 @@ public class LoadYamlEvents : MonoBehaviour
 		public EVENT_TYPE type;
 	}
 
+	//return this instead of null if theres an issue when looking up an event.
 	public static GameEvent BAD_EVENT;
 
+	//4 types of events, so 4 lists.
 	private List<GameEvent> rulerEvents = new List<GameEvent> ();
 	private List<GameEvent> peasantEvents = new List<GameEvent> ();
 	private List<GameEvent> merchantEvents = new List<GameEvent> ();
@@ -111,6 +113,15 @@ public class LoadYamlEvents : MonoBehaviour
 
 	}
 
+	string replaceWithKingandCharles(string s) {
+		s = s.Replace ("<Ruler>", "King");
+		s = s.Replace ("<PlayerName>", "Charles");
+		s = s.Replace ("<King>", "King");
+		s = s.Replace ("<king>", "King");
+		return s;
+	}
+
+	//load an event from a text file and put it into the list we pass in
 	void LoadEventFromText(string txt, ref List<GameEvent> list) {
 		StringReader input = new StringReader (txt);
 		YamlStream yaml = new YamlStream ();
@@ -129,6 +140,9 @@ public class LoadYamlEvents : MonoBehaviour
 		foreach (YamlMappingNode item in items) {
 			GameEvent e = new GameEvent();
 			e.eventDescription = item.Children [new YamlScalarNode ("eventDescription")].ToString();
+			//in the future, people can type in their own names and gender (so you can be a queen, not a king, but for now, we'll hardcode it.
+			e.eventDescription = replaceWithKingandCharles(e.eventDescription);
+
 			e.eventTag = item.Children [new YamlScalarNode ("eventTag")].ToString ();
 			string type = item.Children [new YamlScalarNode ("eventType")].ToString ();
 			if (type == "streamer") {
@@ -159,15 +173,18 @@ public class LoadYamlEvents : MonoBehaviour
 					e.eventRequirements.Add (r);
 				}
 			}
+			//load choices for the event
 			e.choices = new List<Choice> ();
 			var choices = (YamlSequenceNode)item.Children [new YamlScalarNode ("choices")];
 			//print(choices.ToString());
 			foreach (YamlMappingNode choice in choices ) {
-				print (choice);
+				//print (choice);
 				Choice c = new Choice ();
 				c.choiceText = choice.Children[new YamlScalarNode ("choiceText")].ToString ();
+				c.choiceText = replaceWithKingandCharles(c.choiceText);
 				c.choiceTag = choice.Children [new YamlScalarNode ("choiceTag")].ToString ();
 				c.outcomeText = choice.Children [new YamlScalarNode ("outcomeText")].ToString ();
+				c.outcomeText = replaceWithKingandCharles(c.outcomeText);
 				c.choiceRequirements = new List<Requirement> ();
 				var choiceRequirements = new YamlSequenceNode(choice.Children [new YamlScalarNode ("choiceRequirements")]);
 				foreach (YamlMappingNode requirement in choiceRequirements ) {
@@ -185,7 +202,7 @@ public class LoadYamlEvents : MonoBehaviour
 						c.choiceRequirements.Add (r);
 					}
 				}
-
+				//load the state changes if this choice is made.
 				c.stateChanges = new List<StateChange> ();
 				var stateChanges = new YamlSequenceNode(choice.Children [new YamlScalarNode ("stateChanges")]);
 				foreach (YamlMappingNode stateChange in stateChanges ) {
