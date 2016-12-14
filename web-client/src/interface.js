@@ -78,9 +78,9 @@ module.exports.setStatsLevel = function(percent) {
 
 module.exports.setStatsSymbol = function(role) {
 	var roleToSymbolMap = {
-		'PEASANT': '/img/qol.png',
-		'NOBLE': '/img/power.png',
-		'MERCHANT': '/img/wealth.png'
+		'PEASANT': 'img/qol.png',
+		'NOBLE': 'img/power.png',
+		'MERCHANT': 'img/wealth.png'
 	}
 	$("#stats-symbol").attr('src', roleToSymbolMap[role]);
 }
