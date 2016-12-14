@@ -1337,8 +1337,9 @@
 		outcomesRef.on('child_added', function(snap) {
 			var outcome = snap.val();
 			var userRole = user.getUser().role;
+			console.log(outcome, userRole,userRole == outcome.type)
 			if (userRole == outcome.type) {
-				interface.addOutcome(snap.val());
+				interface.addOutcome(outcome);
 			}
 		});
 		// Listen for new events, and if relevant, add to interface.
