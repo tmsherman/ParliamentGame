@@ -1,3 +1,14 @@
+THE KING AND THE CROWD
+
+by Team Parliament
+Tim Sherman
+Albert Yang
+Ken Situ
+Barun Kwak
+Cole Gleason
+Bobbie Soques
+
+
 This game has 3 components: The Unity client, the python helper, and the web client.
 
 The unity client is in the zip file. The python helper is FirebaseHelper.py
