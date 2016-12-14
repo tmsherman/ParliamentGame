@@ -601,6 +601,7 @@
 		var roleListener = userRef.child('type').on('value', function(snap) {
 			var role = snap.val();
 			if (role) {
+				console.log("got user role change");
 				user.role = role;
 				interface.setStatsSymbol(user.role);
 				interface.clearOutcomes();
@@ -1345,6 +1346,7 @@
 	// Load the current state of the game, used to init game after
 	// Twitch login and Unity server assigns role.
 	module.exports.loadCurrentState = function() {
+		console.log("setting up listeners")
 		loaded = true;
 		// Listen for new outcomes, and if relevant, add to interface.
 		outcomesRef.on('child_added', function(snap) {

@@ -25,6 +25,7 @@ module.exports.isLoaded = function() {
 // Load the current state of the game, used to init game after
 // Twitch login and Unity server assigns role.
 module.exports.loadCurrentState = function() {
+	console.log("setting up listeners")
 	loaded = true;
 	// Listen for new outcomes, and if relevant, add to interface.
 	outcomesRef.on('child_added', function(snap) {

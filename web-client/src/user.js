@@ -18,6 +18,7 @@ module.exports.initOrLoadUser = function(username) {
 	var roleListener = userRef.child('type').on('value', function(snap) {
 		var role = snap.val();
 		if (role) {
+			console.log("got user role change");
 			user.role = role;
 			interface.setStatsSymbol(user.role);
 			interface.clearOutcomes();
