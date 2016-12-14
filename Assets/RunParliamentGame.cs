@@ -197,14 +197,12 @@ public class RunParliamentGame : MonoBehaviour {
 			}
 		}
 
+		//SUPER SECRET DEBUG COMMAND!
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			advanceEvent ();
 		}
 	
-		if (Input.GetKeyDown (KeyCode.R)) {
-			postResourcesToFirebase ();
-		}
-
+		//if we received a vote total this frame, send an outcome out and make the choice locally.
 		if (voteReceiver.newMessageThisFrame) {
 			int choice0votes = (int)voteReceiver.messages [0];
 			int choice1votes = (int)voteReceiver.messages [1];
@@ -261,7 +259,8 @@ public class RunParliamentGame : MonoBehaviour {
 				onChoice (1);
 			}
 		}
-
+		//if we got new users this frame, give each one a new usertype.
+		//BUG - sometimes this doesnt give every user a new type. No idea why. It's just added randomness for now, game still functions.
 		if (userReceiver.newMessageThisFrame) {
 			while (userReceiver.messages.Count > 0) {
 				object username = userReceiver.messages [0];
@@ -275,6 +274,7 @@ public class RunParliamentGame : MonoBehaviour {
 		}
 	}
 
+	//load the next event in the queue.
 	void advanceEvent() {
 		currentEvent = eventQueue [0];
 		eventQueue.RemoveAt (0);
@@ -283,8 +283,7 @@ public class RunParliamentGame : MonoBehaviour {
 
 	}
 
-	//these are triggered when you click on one of the choices.
-
+	//button callback, and the OK button during an outcome
 	public void onChoice1() {
 		if (!waitingForDecision) {
 			advanceEvent ();
@@ -292,21 +291,23 @@ public class RunParliamentGame : MonoBehaviour {
 			onChoice (0);
 		}
 	}
-
+	//button callback
 	public void onChoice2() {
 		onChoice (1);
 	}
-
+	//button callback
 	public void onChoice3() {
 		onChoice (2);
 	}
 
-	//returns -1 if no key found.
+	//returns -1 if no key found. in the future, this will let us check if certain events have happened or choices have been made previously, to determine if certain events and choices are eligible ones.
 	public int getStateForKey (string key) {
 		if (!state.ContainsKey (key)) return -1;
 		else return state [key];
 	}
 
+
+	//this changes the game to account for a choice being made. - shows outcome, saves values, makes state changes.
 	void onChoice(int choiceNum) {
 		LoadYamlEvents.GameEvent e = eventStorage.FetchEventByTag (currentEvent);
 		LoadYamlEvents.Choice c = e.choices [choiceNum];
@@ -336,7 +337,25 @@ public class RunParliamentGame : MonoBehaviour {
 		}
 
 		postResourcesToFirebase ();
-		eventDescription.GetComponent<Text> ().text = c.outcomeText;
+
+		//if its not a streamer outcome, we want to tell the streamer and viewers that.
+		string typeText = "";
+		if (e.type == LoadYamlEvents.EVENT_TYPE.MERCHANT) {
+			typeText = "Merchants";
+		} else if (e.type == LoadYamlEvents.EVENT_TYPE.NOBLE) {
+			typeText = "Nobles";
+		} else if (e.type == LoadYamlEvents.EVENT_TYPE.PEASANT) {
+			typeText = "Peasants";
+		} else {
+			typeText = "ERROR: BAD TYPE";
+		}
+		if (e.type != LoadYamlEvents.EVENT_TYPE.STREAMER) {
+			eventDescription.GetComponent<Text> ().text = "The outcome of the " + typeText + " decision...\n\n" + e.eventDescription;
+			eventDescription.GetComponent<Text> ().text = c.outcomeText;
+		} else { //it is a streamer outcome, just show the outcome text.
+			eventDescription.GetComponent<Text> ().text = c.outcomeText;
+		}
+		//OK to advance through the outcome text. hide other buttons.
 		choice1Text.GetComponent<Text> ().text = "OK";
 		choice1.SetActive (true);
 		choice2.SetActive (false);
