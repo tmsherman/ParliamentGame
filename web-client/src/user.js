@@ -20,6 +20,7 @@ module.exports.initOrLoadUser = function(username) {
 		if (role) {
 			user.role = role;
 			interface.setStatsSymbol(user.role);
+			interface.clearOutcomes();
 			if (!game.isLoaded()) {
 				game.loadCurrentState();
 			}

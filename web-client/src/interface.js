@@ -75,6 +75,10 @@ module.exports.addOutcome = function(data) {
 	$("#outcomebox").prepend(outcome);
 }
 
+module.exports.clearOutcomes = function() {
+	$("#outcomebox").html('');
+}
+
 // make vote buttons unclickable
 function disableVoteButtons() {
 	$("#yes-btn").prop('disabled', true);

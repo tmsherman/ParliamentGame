@@ -532,6 +532,10 @@
 		$("#outcomebox").prepend(outcome);
 	}
 
+	module.exports.clearOutcomes = function() {
+		$("#outcomebox").html('');
+	}
+
 	// make vote buttons unclickable
 	function disableVoteButtons() {
 		$("#yes-btn").prop('disabled', true);
@@ -599,6 +603,7 @@
 			if (role) {
 				user.role = role;
 				interface.setStatsSymbol(user.role);
+				interface.clearOutcomes();
 				if (!game.isLoaded()) {
 					game.loadCurrentState();
 				}
