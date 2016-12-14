@@ -35,6 +35,7 @@ module.exports.loadCurrentState = function() {
 		var end = moment.unix(event.utctime)
 		  .add(config.eventDuration, 'seconds');
 		var now = moment.utc();
+		console.log(event, event.type == userRole, now < end);
 		if (event.type == userRole && now < end) {
 			interface.displayEvent(snap.key, snap.val());
 		}
