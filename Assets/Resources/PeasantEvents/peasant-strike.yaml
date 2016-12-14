@@ -1,5 +1,5 @@
  events:
- - eventDescription: |
+  - eventDescription: |
       "There is a long bitter history of the nobles and merchants and even at times the <king> disrespecting your peasant class. 
       They have poked fun at your low status, lack of wealth, and general impoverished state. Enough is enough, it is time to claim our dignity back and there is one perfect way to do so. 
       One word: farmer’s strike
@@ -12,11 +12,11 @@
       - choiceText: "Yes" #What the player sees.
         choiceTag: "strike-yes" #A tag for other events requirements.
         choiceRequirements: {} #Majority of peasants vote yes
-        stateChanges: {happiness:+5, wealth:-5, power:-5} #merchants and nobles suffer since peasants are striking
+        stateChanges: {happiness: +5, wealth: -5, power: -5} #merchants and nobles suffer since peasants are striking
         outcomeText: "Your strike was a success: Congrats! You have earned respect from the upper classes!"
 
       - choiceText: "No" #What the player sees.
         choiceTag: "strike-no"
         choiceRequirements: {} #Majority of peasants vote no
-        stateChanges: {happiness:-10} #only the peasants suffer
+        stateChanges: {happiness: -10} #only the peasants suffer
         outcomeText: "You did not strike and thus gained no respect from the upper classes. Alas, hopefully one day the peasants will receive the recognition and respect they deserve."

@@ -5,21 +5,31 @@ public class moveDownScript : MonoBehaviour {
 
 	public bool activated = false;
 
-	private GameObject guyINeedToTouchOrReferenceOrWhatever;
+	private GameObject visitor;
+
+	//Animation variables
+	private Animator anim;
+	private int leaveHash = Animator.StringToHash("leave");
 
 	// Use this for initialization
 	void Start () {
-		guyINeedToTouchOrReferenceOrWhatever = GameObject.Find ("King");
+		visitor = GameObject.Find ("Visitor");
+		anim = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!activated)
 			return;
-		transform.position = new Vector3 (transform.position.x, transform.position.y + 1, transform.position.z);
+		if (visitor.transform.position.y < 1F) {
+			transform.position = new Vector3 (transform.position.x, transform.position.y + 0.04F, transform.position.z);
+		}
+		else
+			activated = false;
 	}
 
 	public void Activate() {
+		anim.SetBool (leaveHash, false);
 		activated = true;
 	}
 }

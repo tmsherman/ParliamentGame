@@ -1,5 +1,5 @@
 events:
- - eventDescription: |
+  - eventDescription: |
       "The life of a peasant is not that thrilling. Wake up, work, eat, sleep, and repeat. 
       That is why when there is some fresh gossip the entire peasant class will know about it, probably within the next hour. 
       Peasants live for gossip. As it turns out there is some juicy gossip about the <king>. 
@@ -13,11 +13,11 @@ events:
       - choiceText: "Yes" #What the player sees.
         choiceTag: "gossip-yes" #A tag for other events requirements.
         choiceRequirements: {}
-        stateChanges: {happiness:-10}
+        stateChanges: {happiness: -10}
         outcomeText: "Unfortunately, <Ruler> <PlayerName> has caught wind of your gossip and has charged an immediate tax on the entire peasant class for their unruly behavior. But on a brighter note, you find out the <Ruler> <PlayerName> has a severe case of the bunions and walks around the castle barefoot."
 
       - choiceText: "No" #What the player sees.
         choiceTag: "gossip-no"
         choiceRequirements: {} #Majority of peasants vote no
-        stateChanges: {happiness:+10}
+        stateChanges: {happiness: +10}
         outcomeText: "Your loyalty to <Ruler> <PlayerName> has served you well. <Ruler> <PlayerName> has decided to reward the peasant class with a carriage full of precious vegetables, meats, and fruits. Although, it still itches you that you’ll never know what that juicy rumor was…"
