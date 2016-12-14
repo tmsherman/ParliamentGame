@@ -1,0 +1,155 @@
+@font-face {
+    font-family: GameOver;
+    src: url(game_over.ttf) format("truetype");
+    src: url(game_over.woff) format("woff");
+}
+
+body {
+    background: black;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: GameOver, sans-serif;
+        font-size: 1em;
+        color: white;
+    
+}
+
+div {
+    border: 1px solid white;
+}
+
+p {
+    white-space: normal;
+    -ms-word-break: break-all;
+        word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+       -moz-hyphens: auto;
+            hyphens: auto;
+}
+
+blue {
+    color: deepskyblue;
+}
+
+#leftcontainer {
+    width: 20vw;
+    min-width: 250px;
+    height: 100vh;
+    display: inline-block;
+    vertical-align:top;
+    text-align: center;
+    border: none;
+}
+
+#middlecontainer {
+    width: 54vw;
+    min-width: 450px;
+    height: 100vh;
+    display: inline-block;
+    text-align: center;
+    border: none;
+}
+
+
+#statsbar {
+    width: 60px;
+    height: 59.5%;
+    margin: 10px;
+        margin-bottom: 0;
+    min-height: 500px;
+    display: inline-block;
+    text-align: left;
+    
+}
+
+#statssymbol {
+    width: 60px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    
+    
+    
+}
+
+#outcomebox {
+    width: auto;
+    height: 25%;
+    min-height: 200px;
+    margin: 10px;
+    padding: 15px;
+        padding-top: 0;
+    text-align: left;
+    overflow: scroll;
+}
+
+#gameimage {
+    width: auto;
+    height: 60%;
+    min-height: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    
+}
+
+#decisionbox {
+    width: auto;
+    height: 25%;
+    min-height: 200px;
+    margin: 10px;
+    text-align: left;
+    padding: 15px;
+        padding-top: 0;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+#yes-btn {
+    margin: 10px;
+    width: 20%;
+    height: 5%;
+    display: inline-block;
+    min-height: 30px;
+    box-sizing: border-box;
+    color: green;
+}
+
+#no-btn {
+    margin: 10px;
+    width: 20%;
+    height: 5%;
+    display: inline-block;
+    min-height: 30px;
+    color: red;
+}
+
+#timer {
+    margin: 10px;
+    width: 20%;
+    height: 5%;
+    min-height: 30px;
+    display: inline-block;
+}
+
+#chatbox {
+    width: 25vw;
+    min-width: 200px;
+    height: 100vh;
+    min-height: 700px;
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align:top;
+    border: none;
+}
+
+.neg-change {
+    color: red;
+}
+
+.pos-change {
+    color: green;
+}
+
