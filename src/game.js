@@ -4,6 +4,7 @@ var user = require('./user');
 var config = require('./config');
 var moment = require('moment');
 
+// Map of user roles/classes and the resources they need
 var roleToResourceMap = {
 	'PEASANT': 'happiness',
 	'NOBLE': 'power',
@@ -11,11 +12,15 @@ var roleToResourceMap = {
 };
 module.exports.roleToResourceMap = roleToResourceMap;
 
+// Firebase references to important nodes
 var outcomesRef = fb.database().ref('/outcomes');
 var eventsRef = fb.database().ref('/events');
 var stateRef = fb.database().ref('/state');
 
+// Load the current state of the game, used to init game after
+// Twitch login and Unity server assigns role.
 module.exports.loadCurrentState = function() {
+	// Listen for new outcomes, and if relevant, add to interface.
 	outcomesRef.on('child_added', function(snap) {
 		var outcome = snap.val();
 		var userRole = user.getUser().role;
@@ -23,6 +28,7 @@ module.exports.loadCurrentState = function() {
 			interface.addOutcome(snap.val());
 		}
 	});
+	// Listen for new events, and if relevant, add to interface.
 	eventsRef.on('child_added', function(snap) {
 		var event = snap.val();
 		var userRole = user.getUser().role;
@@ -33,15 +39,12 @@ module.exports.loadCurrentState = function() {
 			interface.displayEvent(snap.key, snap.val());
 		}
 	});
-	stateRef.on('value', updateResources);
-}
-
-function updateResources(snap) {
-	var state = snap.val();
-	var userRole = user.getUser().role;
-	if (userRole) {
+	// Listen for changes to game state and update user resources level
+	stateRef.on('value', function(snap) {
+		var state = snap.val();
+		var userRole = user.getUser().role;
 		var desiredResource = roleToResourceMap[userRole];
 		var percent = state.resources[desiredResource];
 		interface.setStatsLevel(percent);
-	}
+	});
 }
