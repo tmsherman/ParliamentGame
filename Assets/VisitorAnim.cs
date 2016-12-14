@@ -29,12 +29,12 @@ public class VisitorAnim : MonoBehaviour {
 			}
 		}
 	}
-
+	//call this to make him walk in
 	public void enter() {
 		anim.SetBool (leaveHash, false);
 		leave = false;
 	}
-
+	//call this to make him walk out
 	public void depart() {
 		anim.SetBool (leaveHash, true);
 		leave = true;

@@ -1,10 +1,10 @@
 events:
   - eventDescription: |
-      "The life of a peasant is not that thrilling. Wake up, work, eat, sleep, and repeat. 
+      The life of a peasant is not that thrilling. Wake up, work, eat, sleep, and repeat. 
       That is why when there is some fresh gossip the entire peasant class will know about it, probably within the next hour. 
-      Peasants live for gossip. As it turns out there is some juicy gossip about the <king>. 
-      Now you have the choice to ignore the usually debunked rumors and protect the <king>’s reputation. 
-      Or you can find out what exactly is causing such a ruckus, you know you want to know, even though you know it will hurt the <king>’s reputation.”
+      Peasants live for gossip. As it turns out there is some juicy gossip about the <King>. 
+      Now you have the choice to ignore the usually debunked rumors and protect the <King>'s reputation. 
+      Or you can find out what exactly is causing such a ruckus, you know you want to know, even though you know it will hurt the <king>'s reputation.
 
     eventType: "peasant" #can be streamer, peasant, noble, or merchant
     eventTag: "gossip"
@@ -20,4 +20,4 @@ events:
         choiceTag: "gossip-no"
         choiceRequirements: {} #Majority of peasants vote no
         stateChanges: {happiness: +10}
-        outcomeText: "Your loyalty to <Ruler> <PlayerName> has served you well. <Ruler> <PlayerName> has decided to reward the peasant class with a carriage full of precious vegetables, meats, and fruits. Although, it still itches you that you’ll never know what that juicy rumor was…"
+        outcomeText: "Your loyalty to <Ruler> <PlayerName> has served you well. <Ruler> <PlayerName> has decided to reward the peasant class with a carriage full of precious vegetables, meats, and fruits. Although, it still itches you that you'll never know what that juicy rumor was…"

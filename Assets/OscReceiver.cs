@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class OscReceiver : MonoBehaviour {
 
+	//public members so we can access data from OSC in other places.
 	[HideInInspector] public List<object> messages;
 	[HideInInspector] public bool newMessageThisFrame;
 
@@ -11,7 +12,6 @@ public class OscReceiver : MonoBehaviour {
 
 	public string handlerServerAddress;
 	public string address;
-	// Use this for initialization
 
 	private long lastTimeStamp = 0;
 
