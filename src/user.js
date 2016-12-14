@@ -16,11 +16,13 @@ module.exports.initOrLoadUser = function(username) {
 		}
 	});
 	var roleListener = userRef.child('type').on('value', function(snap) {
-		if (snap.val()) {
-			userRef.off('value', roleListener);
-			user.role = snap.val();
-			game.loadCurrentState();
+		var role = snap.val();
+		if (role) {
+			user.role = role;
 			interface.setStatsSymbol(user.role);
+			if (!game.isLoaded()) {
+				game.loadCurrentState();
+			}
 		}
 	});
 }

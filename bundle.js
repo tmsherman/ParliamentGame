@@ -595,11 +595,13 @@
 			}
 		});
 		var roleListener = userRef.child('type').on('value', function(snap) {
-			if (snap.val()) {
-				userRef.off('value', roleListener);
-				user.role = snap.val();
-				game.loadCurrentState();
+			var role = snap.val();
+			if (role) {
+				user.role = role;
 				interface.setStatsSymbol(user.role);
+				if (!game.isLoaded()) {
+					game.loadCurrentState();
+				}
 			}
 		});
 	}
@@ -1330,9 +1332,15 @@
 	var eventsRef = fb.database().ref('/events');
 	var stateRef = fb.database().ref('/state');
 
+	var loaded = false;
+	module.exports.isLoaded = function() {
+		return loaded;
+	};
+
 	// Load the current state of the game, used to init game after
 	// Twitch login and Unity server assigns role.
 	module.exports.loadCurrentState = function() {
+		loaded = true;
 		// Listen for new outcomes, and if relevant, add to interface.
 		outcomesRef.on('child_added', function(snap) {
 			var outcome = snap.val();
