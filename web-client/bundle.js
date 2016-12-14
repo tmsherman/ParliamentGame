@@ -1348,7 +1348,7 @@
 			var end = moment.unix(event.utctime)
 			  .add(config.eventDuration, 'seconds');
 			var now = moment.utc();
-			console.log(event, event.type == userRole, now < end);
+			console.log(event, now, end, now < end);
 			if (event.type == userRole && now < end) {
 				interface.displayEvent(snap.key, snap.val());
 			}
