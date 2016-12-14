@@ -25,8 +25,12 @@ public class RunParliamentGame : MonoBehaviour {
 
 	private bool waitingForDecision = false;
 
+	private int numUsers = 0;
+	private int lastClass = 0;
+	private string[] userClasses = { "peasant", "merchant", "noble" };
+
 	// Use this for initialization
-	void Start () {
+		void Start () {
 		eventDescription = GameObject.Find ("ChoiceStoryText");
 		choice1Text = GameObject.Find ("Choice1Text");
 		choice2Text = GameObject.Find ("Choice2Text");
@@ -55,6 +59,8 @@ public class RunParliamentGame : MonoBehaviour {
 		state.Add ("wealth", 30);
 		state.Add ("power", 30);
 
+		//we'll cycle through our array to give out classes, but start on a random one.
+		lastClass = Random.Range (0, 3);
 	}
 
 	void LoadEvent(LoadYamlEvents.GameEvent e) {
@@ -180,5 +186,13 @@ public class RunParliamentGame : MonoBehaviour {
 		choice2.SetActive (false);
 		choice3.SetActive (false);
 		waitingForDecision = false;
+	}
+
+
+	private string pickClassForNewUser() {
+		numUsers++;
+		lastClass += 1;
+		if (lastClass >= userClasses.Length) lastClass = 0;
+		return userClasses [lastClass];
 	}
 }
