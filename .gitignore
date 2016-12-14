@@ -21,7 +21,6 @@ ExportedObj/
 *.unityproj
 *.booproj
 *.orig
-*.app
 *.exe
 *.*_data
 .consulo/
