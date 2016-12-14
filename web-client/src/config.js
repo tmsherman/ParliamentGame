@@ -1,4 +1,4 @@
 module.exports = {
-	channel: "colegleason",
+	channel: "oroq",
 	eventDuration: 30, // seconds
 };
