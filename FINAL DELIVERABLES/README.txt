@@ -12,6 +12,8 @@ These can be installed with
 pip3 install pyrebase
 pip3 install python-osc
 
+If you want to open the Unity source, please note that the game was developed with Unity 5.4.3 and may not work on other versions. Also note that GameScene.unity is the scene you should look at, and when you open it initially, Unity might throw many errors, but clear the console and it’ll be OK.
+
 INSTRUCTIONS TO PLAY:
 The Unity game should be launched first.
 Then the python script should be launched with
