@@ -229,7 +229,6 @@ public class RunParliamentGame : MonoBehaviour {
 						powerChange = c.stateChanges [i].value;
 					}
 				}
-				print (happinessChange);
 				data.Add (happinessChange);
 				data.Add (wealthChange);
 				data.Add (powerChange);
