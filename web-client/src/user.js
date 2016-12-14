@@ -4,6 +4,9 @@ var interface = require('./interface');
 
 var user = {};
 
+// if a user node does not exist for this user, make one
+// then listen for the user role to be added so we can load
+// the rest of the game.
 module.exports.initOrLoadUser = function(username) {
 	module.exports.username = username;
 	var userRef = fb.database().ref('/users/' + username);
@@ -22,10 +25,12 @@ module.exports.initOrLoadUser = function(username) {
 	});
 }
 
+// return the user object
 module.exports.getUser = function() {
 	return user;
 }
 
+// add a vote for the specified event
 module.exports.vote = function(eventId, vote) {
 	fb.database()
 	.ref('/users/' + module.exports.username + '/votes/' + eventId)

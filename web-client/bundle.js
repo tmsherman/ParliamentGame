@@ -44,6 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// Link webpack entry points
+
 	__webpack_require__(1);
 	__webpack_require__(5);
 	__webpack_require__(9).init();
@@ -459,6 +461,7 @@
 
 	var moment = __webpack_require__(20);
 
+	// initialize the interface by setting up chat, stream, etc.
 	module.exports.init = function() {
 		// Set Twitch chat and stream based on configured channel
 		$("#chat").attr("src", `https://www.twitch.tv/${config.channel}/chat?darkpopout`);
@@ -467,6 +470,7 @@
 		$("#no-btn").click(submitVote);
 	}
 
+	// handle vote button click
 	function submitVote(event) {
 		var eventId = $(event.target).attr('name');
 		var vote = $(event.target).val();
@@ -474,10 +478,12 @@
 		disableVoteButtons();
 	}
 
+	// setup timer countdown for voting
 	function setupTimer(end) {
 		var interval = setInterval(function() {
 			var now = moment.utc();
 			if (now > end) {
+				// time's up! reset ui elements
 				$('#timer').text('Voting Over');
 				$("#decisionbox").html(null);
 				disableVoteButtons();
@@ -489,6 +495,7 @@
 		}, 1000);
 	}
 
+	// change event description text, vote buttons, and then start timer
 	module.exports.displayEvent = function(eventKey, event) {
 		var eventHtml = $("<p>");
 		eventHtml.text(event.description);
@@ -504,10 +511,13 @@
 		setupTimer(end);
 	}
 
+	// add a new outcome to the left sidebar
 	module.exports.addOutcome = function(data) {
 		var outcome = $("<p>");
 		outcome.text(data.text);
 		outcome.append($('<br />'));
+		// create colorful resource change indications
+		// only for our resources
 		Object.keys(data.changes).forEach(function(key) {
 			var val = data.changes[key];
 			var userRole = user.getUser().role;
@@ -518,25 +528,30 @@
 				outcome.append(change);
 			}
 		});
+		// add to top of list
 		$("#outcomebox").prepend(outcome);
 	}
 
+	// make vote buttons unclickable
 	function disableVoteButtons() {
 		$("#yes-btn").prop('disabled', true);
 		$("#no-btn").prop('disabled', true);
 	}
 	module.exports.disableVoteButtons = disableVoteButtons;
 
+	// change the percent bar level
 	module.exports.setStatsLevel = function(percent) {
 		$('#stats-level').height(percent + '%');
 	}
 
+	// based on the user's role, change resource icon and role text
 	module.exports.setStatsSymbol = function(role) {
 		var roleToSymbolMap = {
 			'PEASANT': 'img/qol.png',
 			'NOBLE': 'img/power.png',
 			'MERCHANT': 'img/wealth.png'
 		}
+		$("#role-text").text(role);
 		$("#stats-symbol").attr('src', roleToSymbolMap[role]);
 	}
 
@@ -546,8 +561,16 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-		channel: "oroq",
+		channel: "oroq", // channel name of the streamer to load
 		eventDuration: 30, // seconds
+		twitchClientId: 'fj6deq9ja4sqx8thrxncuzikk8s3xhx', // Twitch API key
+		firebaseConfig: {
+			apiKey: "AIzaSyBtGj_zMzADQ3vRUnZH29rbIZJpv6YCgDw",
+			authDomain: "parliament-6f09c.firebaseapp.com",
+			databaseURL: "https://parliament-6f09c.firebaseio.com",
+			storageBucket: "parliament-6f09c.appspot.com",
+			messagingSenderId: "366765716997"
+		},
 	};
 
 /***/ },
@@ -560,6 +583,9 @@
 
 	var user = {};
 
+	// if a user node does not exist for this user, make one
+	// then listen for the user role to be added so we can load
+	// the rest of the game.
 	module.exports.initOrLoadUser = function(username) {
 		module.exports.username = username;
 		var userRef = fb.database().ref('/users/' + username);
@@ -578,10 +604,12 @@
 		});
 	}
 
+	// return the user object
 	module.exports.getUser = function() {
 		return user;
 	}
 
+	// add a vote for the specified event
 	module.exports.vote = function(eventId, vote) {
 		fb.database()
 		.ref('/users/' + module.exports.username + '/votes/' + eventId)
@@ -592,16 +620,12 @@
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var config = __webpack_require__(10);
+
 	var firebase = __webpack_require__(13);
-	var config = {
-	    apiKey: "AIzaSyBtGj_zMzADQ3vRUnZH29rbIZJpv6YCgDw",
-	    authDomain: "parliament-6f09c.firebaseapp.com",
-	    databaseURL: "https://parliament-6f09c.firebaseio.com",
-	    storageBucket: "parliament-6f09c.appspot.com",
-	    messagingSenderId: "366765716997"
-	};
-	var app = firebase.initializeApp(config);
-	module.exports = app;
+
+	// Export firebase connection to database
+	module.exports = firebase.initializeApp(config.firebaseConfig);
 
 /***/ },
 /* 13 */
@@ -1293,6 +1317,7 @@
 	var config = __webpack_require__(10);
 	var moment = __webpack_require__(20);
 
+	// Map of user roles/classes and the resources they need
 	var roleToResourceMap = {
 		'PEASANT': 'happiness',
 		'NOBLE': 'power',
@@ -1300,11 +1325,15 @@
 	};
 	module.exports.roleToResourceMap = roleToResourceMap;
 
+	// Firebase references to important nodes
 	var outcomesRef = fb.database().ref('/outcomes');
 	var eventsRef = fb.database().ref('/events');
 	var stateRef = fb.database().ref('/state');
 
+	// Load the current state of the game, used to init game after
+	// Twitch login and Unity server assigns role.
 	module.exports.loadCurrentState = function() {
+		// Listen for new outcomes, and if relevant, add to interface.
 		outcomesRef.on('child_added', function(snap) {
 			var outcome = snap.val();
 			var userRole = user.getUser().role;
@@ -1312,6 +1341,7 @@
 				interface.addOutcome(snap.val());
 			}
 		});
+		// Listen for new events, and if relevant, add to interface.
 		eventsRef.on('child_added', function(snap) {
 			var event = snap.val();
 			var userRole = user.getUser().role;
@@ -1322,17 +1352,14 @@
 				interface.displayEvent(snap.key, snap.val());
 			}
 		});
-		stateRef.on('value', updateResources);
-	}
-
-	function updateResources(snap) {
-		var state = snap.val();
-		var userRole = user.getUser().role;
-		if (userRole) {
+		// Listen for changes to game state and update user resources level
+		stateRef.on('value', function(snap) {
+			var state = snap.val();
+			var userRole = user.getUser().role;
 			var desiredResource = roleToResourceMap[userRole];
 			var percent = state.resources[desiredResource];
 			interface.setStatsLevel(percent);
-		}
+		});
 	}
 
 /***/ },
@@ -16241,8 +16268,10 @@
 
 	var fb = __webpack_require__(12);
 	var user = __webpack_require__(11);
+	var config = __webpack_require__(10);
 
-	Twitch.init({clientId: 'fj6deq9ja4sqx8thrxncuzikk8s3xhx'}, function(error, status) {
+	// Initialize the API and then fetch the user information
+	Twitch.init({clientId: config.twitchClientId}, function(error, status) {
 	  if (error) {
 	    // error encountered while loading
 	    console.log(error);
@@ -16257,6 +16286,7 @@
 	  }
 	});
 
+	// Wire up the login button
 	$('.twitch-connect').click(function() {
 	  Twitch.login({
 	    scope: ['user_read', 'channel_read']

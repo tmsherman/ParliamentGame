@@ -4,6 +4,7 @@ var game = require('./game');
 
 var moment = require('moment');
 
+// initialize the interface by setting up chat, stream, etc.
 module.exports.init = function() {
 	// Set Twitch chat and stream based on configured channel
 	$("#chat").attr("src", `https://www.twitch.tv/${config.channel}/chat?darkpopout`);
@@ -12,6 +13,7 @@ module.exports.init = function() {
 	$("#no-btn").click(submitVote);
 }
 
+// handle vote button click
 function submitVote(event) {
 	var eventId = $(event.target).attr('name');
 	var vote = $(event.target).val();
@@ -19,10 +21,12 @@ function submitVote(event) {
 	disableVoteButtons();
 }
 
+// setup timer countdown for voting
 function setupTimer(end) {
 	var interval = setInterval(function() {
 		var now = moment.utc();
 		if (now > end) {
+			// time's up! reset ui elements
 			$('#timer').text('Voting Over');
 			$("#decisionbox").html(null);
 			disableVoteButtons();
@@ -34,6 +38,7 @@ function setupTimer(end) {
 	}, 1000);
 }
 
+// change event description text, vote buttons, and then start timer
 module.exports.displayEvent = function(eventKey, event) {
 	var eventHtml = $("<p>");
 	eventHtml.text(event.description);
@@ -49,10 +54,13 @@ module.exports.displayEvent = function(eventKey, event) {
 	setupTimer(end);
 }
 
+// add a new outcome to the left sidebar
 module.exports.addOutcome = function(data) {
 	var outcome = $("<p>");
 	outcome.text(data.text);
 	outcome.append($('<br />'));
+	// create colorful resource change indications
+	// only for our resources
 	Object.keys(data.changes).forEach(function(key) {
 		var val = data.changes[key];
 		var userRole = user.getUser().role;
@@ -63,24 +71,29 @@ module.exports.addOutcome = function(data) {
 			outcome.append(change);
 		}
 	});
+	// add to top of list
 	$("#outcomebox").prepend(outcome);
 }
 
+// make vote buttons unclickable
 function disableVoteButtons() {
 	$("#yes-btn").prop('disabled', true);
 	$("#no-btn").prop('disabled', true);
 }
 module.exports.disableVoteButtons = disableVoteButtons;
 
+// change the percent bar level
 module.exports.setStatsLevel = function(percent) {
 	$('#stats-level').height(percent + '%');
 }
 
+// based on the user's role, change resource icon and role text
 module.exports.setStatsSymbol = function(role) {
 	var roleToSymbolMap = {
 		'PEASANT': 'img/qol.png',
 		'NOBLE': 'img/power.png',
 		'MERCHANT': 'img/wealth.png'
 	}
+	$("#role-text").text(role);
 	$("#stats-symbol").attr('src', roleToSymbolMap[role]);
 }
