@@ -62,4 +62,9 @@ public class OscSender : MonoBehaviour {
 	public void Send(string address, int value) {
 		OSCHandler.Instance.SendMessageToClient (handlerServerAddress, address, value);
 	}
+
+	public void Send(string address, List<object> values) {
+		OSCHandler.Instance.SendMessageToClient (handlerServerAddress, address, values);
+
+	}
 }

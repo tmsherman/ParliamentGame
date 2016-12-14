@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class OscReceiver : MonoBehaviour {
 
-	[HideInInspector] public List<float> messages;
+	[HideInInspector] public List<object> messages;
 	[HideInInspector] public bool newMessageThisFrame;
 
 
@@ -27,7 +27,7 @@ public class OscReceiver : MonoBehaviour {
 			didInit = true;
 		}
 	
-		messages = new List<float> ();
+		messages = new List<object> ();
 		for (int i = 0; i < numberOfInputs; i++) {
 			messages.Add (defaultInputValue);
 		}
@@ -38,6 +38,7 @@ public class OscReceiver : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		newMessageThisFrame = false;
 		OSCHandler.Instance.UpdateLogs();
 	
 		ServerLog serverLog;
@@ -51,15 +52,14 @@ public class OscReceiver : MonoBehaviour {
 			return;
 
 		//new message received! do stuff!
-		print ("HELLO FROM PYTHON!");
+		newMessageThisFrame = true;
 
 		lastTimeStamp = serverLog.server.LastReceivedPacket.TimeStamp;
 		messages.Clear ();
 		UnityOSC.OSCPacket packet = serverLog.server.LastReceivedPacket;
 		for (int i = 0; i < packet.Data.Count; i++) {
-			messages.Add((int)packet.Data [i]);
-			//print ((float)packet.Data [i]);
+			messages.Add(packet.Data [i]);
+			print (packet.Data [i]);
 		}
-		gameObject.GetComponent<OscSender> ().Send ("/volume", 11);
 	}
 }
