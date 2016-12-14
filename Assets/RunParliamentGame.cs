@@ -71,10 +71,7 @@ public class RunParliamentGame : MonoBehaviour {
 		eventQueue.Add ("black-market");
 		eventQueue.Add ("gossip");
 		eventQueue.Add ("propose-tax");
-		eventQueue.Add ("change-tax");
-		eventQueue.Add ("approve-tax-increase");
-		eventQueue.Add ("approve-tax-decrease");
-		eventQueue.Add ("popular-strike");
+		eventQueue.Add ("peasant-strike");
 		eventQueue.Add ("dragon");
 		eventQueue.Add ("streamer-death");
 
@@ -91,7 +88,10 @@ public class RunParliamentGame : MonoBehaviour {
 	}
 
 	void LoadEvent(LoadYamlEvents.GameEvent e) {
-		if (e.type == LoadYamlEvents.EVENT_TYPE.BAD) return;
+		if (e.type == LoadYamlEvents.EVENT_TYPE.BAD) {
+			print ("BAD EVENT");
+			return;
+		}
 
 		numEvents++;
 
