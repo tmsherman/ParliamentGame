@@ -6,8 +6,8 @@ var moment = require('moment');
 
 module.exports.init = function() {
 	// Set Twitch chat and stream based on configured channel
-	$("#chat").attr("src", `http://www.twitch.tv/${config.channel}/chat?darkpopout`);
-	$("#stream").attr("src", `http://player.twitch.tv/?channel=${config.channel}`);
+	$("#chat").attr("src", `https://www.twitch.tv/${config.channel}/chat?darkpopout`);
+	$("#stream").attr("src", `https://player.twitch.tv/?channel=${config.channel}`);
 	$("#yes-btn").click(submitVote);
 	$("#no-btn").click(submitVote);
 }
