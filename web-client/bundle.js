@@ -485,7 +485,7 @@
 			if (now > end) {
 				// time's up! reset ui elements
 				$('#timer').text('Voting Over');
-				$("#decisionbox").html(null);
+				$("#decisionbox").html('');
 				disableVoteButtons();
 				clearInterval(interval);
 			} else {
@@ -551,7 +551,7 @@
 			'NOBLE': 'img/power.png',
 			'MERCHANT': 'img/wealth.png'
 		}
-		$("#role-text").html($('<p>').text(role));
+		$("#role-text").html($('<p>').text(role)) ;
 		$("#stats-symbol").attr('src', roleToSymbolMap[role]);
 	}
 
