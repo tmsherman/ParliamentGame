@@ -1,10 +1,6 @@
 events:
 
-  - eventDescription: |
-      "As a merchant, the current tension with the nation of BeepBoop has been very cumbersome for trade deals since most trade has been banned with them. 
-      Your business has taken quite the hit since BeepBoop is your main trade partner and you know that if you don’t do something soon you and your family will be out on the town streets. 
-      You could however continue trading in the black market; however this is very risky. If you get caught you can be hanged for treason. So will you continue trade in the dangerous black market, or stick to your morals?”
-
+  - eventDescription: "As a merchant, the current tension with the nation of BeepBoop has been very cumbersome for trade deals since most trade has been banned with them. Your business has taken quite the hit since BeepBoop is your main trade partner and you know that if you don’t do something soon you and your family will be out on the town streets. You could however continue trading in the black market; however this is very risky. If you get caught you can be hanged for treason. So will you continue trade in the dangerous black market, or stick to your morals?"
     eventType: "merchant" #can be streamer, peasant, noble, or merchant
     eventTag: "black-market"
     eventRequirements: {}

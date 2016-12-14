@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class RunParliamentGame : MonoBehaviour {
 
@@ -23,11 +24,29 @@ public class RunParliamentGame : MonoBehaviour {
 	private GameObject choice2Text;
 	private GameObject choice3Text; //hardcoded 3 choices for now.
 
+	private GameObject timerText;
+
+	private GameObject visitor;
+
 	private bool waitingForDecision = false;
 
 	private int numUsers = 0;
 	private int lastClass = 0;
-	private string[] userClasses = { "peasant", "merchant", "noble" };
+	private string[] userClasses = { "PEASANT", "MERCHANT", "NOBLE" };
+
+	//we use these to communicate with our python helper (and thus Firebase)
+	private OscReceiver voteReceiver;
+	private OscReceiver userReceiver;
+
+	private OscSender sender;
+
+	private int numEvents = -1;
+
+	private float voteTime = 0f;
+
+	private float voteTimeLimit = 30f;
+
+	private bool sentForVotes = false;
 
 	// Use this for initialization
 		void Start () {
@@ -38,6 +57,14 @@ public class RunParliamentGame : MonoBehaviour {
 		choice1 = GameObject.Find ("Choice1");
 		choice2 = GameObject.Find ("Choice2");
 		choice3 = GameObject.Find ("Choice3");
+		timerText = GameObject.Find ("TimerText");
+		timerText.SetActive (false);
+		visitor = GameObject.Find ("Visitor");
+
+		voteReceiver = GameObject.Find("VoteReceiver").GetComponent<OscReceiver> ();
+		userReceiver = GameObject.Find("UserReceiver").GetComponent<OscReceiver> ();
+
+		sender = gameObject.GetComponent<OscSender> ();
 
 		eventQueue.Add ("haunting1");
 		eventQueue.Add ("war1");
@@ -60,11 +87,13 @@ public class RunParliamentGame : MonoBehaviour {
 		state.Add ("power", 30);
 
 		//we'll cycle through our array to give out classes, but start on a random one.
-		lastClass = Random.Range (0, 3);
+		lastClass = UnityEngine.Random.Range (0, 3);
 	}
 
 	void LoadEvent(LoadYamlEvents.GameEvent e) {
 		if (e.type == LoadYamlEvents.EVENT_TYPE.BAD) return;
+
+		numEvents++;
 
 		if (e.type == LoadYamlEvents.EVENT_TYPE.STREAMER) {
 			LoadStreamerEvent (e);
@@ -75,7 +104,6 @@ public class RunParliamentGame : MonoBehaviour {
 			e.type == LoadYamlEvents.EVENT_TYPE.PEASANT) {
 			LoadCrowdEvent (e);
 		}
-
 
 	}
 
@@ -105,6 +133,7 @@ public class RunParliamentGame : MonoBehaviour {
 			currentChoiceText.GetComponent<Text> ().text = c.choiceText;
 		}
 		waitingForDecision = true;
+		visitor.GetComponent<VisitorAnim> ().enter ();
 	}
 
 	void LoadCrowdEvent(LoadYamlEvents.GameEvent e) {
@@ -119,7 +148,27 @@ public class RunParliamentGame : MonoBehaviour {
 		} else {
 			typeText = "ERROR: BAD TYPE";
 		}
-		eventDescription.GetComponent<Text> ().text = "The " + typeText + " are faced with a decision...\n" + e.eventDescription;
+		eventDescription.GetComponent<Text> ().text = "The " + typeText + " are faced with a decision...\n\n" + e.eventDescription;
+		List<object> data = new List<object> ();
+		data.Add (e.eventDescription);
+		data.Add (e.eventTag);
+		data.Add (e.type.ToString());
+		data.Add (e.choices [0].choiceTag);
+		data.Add (e.choices [1].choiceTag);
+		data.Add (numEvents);
+		data.Add ((Int32)(DateTime.UtcNow.Subtract (new DateTime (1970, 1, 1))).TotalSeconds);
+
+		//hide the streamer buttons
+		choice1.SetActive (false);
+		choice2.SetActive (false);
+		choice3.SetActive (false);
+
+		//show the timer
+		timerText.SetActive (true);
+		timerText.GetComponent<Text> ().text = voteTime.ToString("F1");
+		voteTime = voteTimeLimit;
+		sender.Send("/newEvent", data);
+		sentForVotes = false;
 	}
 
 	// Update is called once per frame
@@ -130,10 +179,100 @@ public class RunParliamentGame : MonoBehaviour {
 			advanceEvent ();
 		}
 
+		//if there's a timer, update it
+		if (voteTime > 0) {
+			voteTime -= Time.deltaTime;
+			timerText.GetComponent<Text> ().text = voteTime.ToString("F1");
+			if (voteTime <= 0) {
+				timerText.GetComponent<Text> ().text = "0.0";
+				if (!sentForVotes) {
+					List<object> data = new List<object> ();
+					data.Add (numEvents);
+					LoadYamlEvents.GameEvent e = eventStorage.FetchEventByTag (currentEvent);
+					data.Add (e.choices [0].choiceTag);
+					data.Add (e.choices [1].choiceTag);
+					sender.Send ("/getvotes", data);
+					sentForVotes = true;
+				}
+			}
+		}
+
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			advanceEvent ();
 		}
 	
+		if (Input.GetKeyDown (KeyCode.R)) {
+			postResourcesToFirebase ();
+		}
+
+		if (voteReceiver.newMessageThisFrame) {
+			int choice0votes = (int)voteReceiver.messages [0];
+			int choice1votes = (int)voteReceiver.messages [1];
+			//yes wins in the event of a tie
+			LoadYamlEvents.GameEvent e = eventStorage.FetchEventByTag (currentEvent);
+			List<object> data = new List<object> ();
+			if (choice0votes >= choice1votes) {
+				LoadYamlEvents.Choice c = e.choices[0];
+				data.Add (numEvents);
+				data.Add (c.outcomeText);
+				int happinessChange = 0;
+				int wealthChange = 0;
+				int powerChange = 0;
+				for (int i = 0; i < c.stateChanges.Count; i++) {
+					if (c.stateChanges [i].key == "happiness") {
+						happinessChange = c.stateChanges [i].value;
+					}
+					if (c.stateChanges [i].key == "wealth") {
+						wealthChange = c.stateChanges [i].value;
+					}
+					if (c.stateChanges [i].key == "power") {
+						powerChange = c.stateChanges [i].value;
+					}
+				}
+				data.Add (happinessChange);
+				data.Add (wealthChange);
+				data.Add (powerChange);
+				data.Add (e.type.ToString());
+				sender.Send ("/votechoiceoutcome", data);
+				onChoice (0);
+			} else {
+				LoadYamlEvents.Choice c = e.choices[1];
+				data.Add (numEvents);
+				data.Add (c.outcomeText);
+				int happinessChange = 0;
+				int wealthChange = 0;
+				int powerChange = 0;
+				for (int i = 0; i < c.stateChanges.Count; i++) {
+					if (c.stateChanges [i].key == "happiness") {
+						happinessChange = c.stateChanges [i].value;
+					}
+					if (c.stateChanges [i].key == "wealth") {
+						wealthChange = c.stateChanges [i].value;
+					}
+					if (c.stateChanges [i].key == "power") {
+						powerChange = c.stateChanges [i].value;
+					}
+				}
+				data.Add (happinessChange);
+				data.Add (wealthChange);
+				data.Add (powerChange);
+				data.Add (e.type.ToString());
+				sender.Send ("/votechoiceoutcome", data);
+				onChoice (1);
+			}
+		}
+
+		if (userReceiver.newMessageThisFrame) {
+			while (userReceiver.messages.Count > 0) {
+				object username = userReceiver.messages [0];
+				string usertype = pickClassForNewUser ();
+				List<object> data = new List<object> ();
+				data.Add (username);
+				data.Add (usertype);
+				sender.Send ("/usertype", data);
+				userReceiver.messages.RemoveAt (0);
+			}
+		}
 	}
 
 	void advanceEvent() {
@@ -180,13 +319,18 @@ public class RunParliamentGame : MonoBehaviour {
 				state.Add (sc.key, sc.value);
 			}
 		}
+		postResourcesToFirebase ();
 		eventDescription.GetComponent<Text> ().text = c.outcomeText;
 		choice1Text.GetComponent<Text> ().text = "OK";
 		choice1.SetActive (true);
 		choice2.SetActive (false);
 		choice3.SetActive (false);
 		waitingForDecision = false;
+		voteTime = 0;
+		timerText.SetActive (false);
+		visitor.GetComponent<VisitorAnim> ().depart ();
 	}
+
 
 
 	private string pickClassForNewUser() {
@@ -194,5 +338,18 @@ public class RunParliamentGame : MonoBehaviour {
 		lastClass += 1;
 		if (lastClass >= userClasses.Length) lastClass = 0;
 		return userClasses [lastClass];
+	}
+
+	private void postResourcesToFirebase() {
+		List<object> data = new List<object> ();
+		data.Add (state["military"]);
+		data.Add (state["magic"]);
+		data.Add (state["diplomacy"]);
+		data.Add (state["wealth"]);
+		data.Add (state["power"]);
+		data.Add (state["happiness"]);
+
+		sender.Send("/resources", data);
+
 	}
 }
