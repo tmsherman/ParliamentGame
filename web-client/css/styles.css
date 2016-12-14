@@ -1,7 +1,7 @@
 @font-face {
     font-family: GameOver;
-    src: url(game_over.ttf) format("truetype");
-    src: url(game_over.woff) format("woff");
+    src: url(../fonts/game_over.ttf) format("truetype");
+    src: url(../fonts/game_over.woff) format("woff");
 }
 
 body {
@@ -9,9 +9,9 @@ body {
     white-space: nowrap;
     overflow: hidden;
     font-family: GameOver, sans-serif;
-        font-size: 1em;
-        color: white;
-    
+    color: white;
+    font-size: 3em;
+    line-height: 0.5em;
 }
 
 div {
@@ -52,27 +52,29 @@ blue {
 }
 
 
-#statsbar {
+#stats-bar {
     width: 60px;
-    height: 59.5%;
+    height: 500px;
     margin: 10px;
-        margin-bottom: 0;
+    margin-bottom: 0;
     min-height: 500px;
-    display: inline-block;
-    text-align: left;
-    
+    position: relative;
 }
 
-#statssymbol {
+#stats-level {
+    bottom: 0;
+    position: absolute;
+    width: 60px;
+    background-color: red;
+}
+
+#stats-symbol {
     width: 60px;
     height: auto;
     display: block;
     margin: 0 auto;
-        margin-top: -10px;
-        margin-bottom: 20px;
-    
-    
-    
+    margin-top: -10px;
+    margin-bottom: 20px;
 }
 
 #outcomebox {
@@ -97,7 +99,7 @@ blue {
 
 #decisionbox {
     width: auto;
-    height: 25%;
+    height: 30%;
     min-height: 200px;
     margin: 10px;
     text-align: left;
@@ -110,7 +112,7 @@ blue {
 #yes-btn {
     margin: 10px;
     width: 20%;
-    height: 5%;
+    height: 50%;
     display: inline-block;
     min-height: 30px;
     box-sizing: border-box;
@@ -120,7 +122,7 @@ blue {
 #no-btn {
     margin: 10px;
     width: 20%;
-    height: 5%;
+    height: 50%;
     display: inline-block;
     min-height: 30px;
     color: red;
@@ -143,6 +145,10 @@ blue {
     display: inline-block;
     vertical-align:top;
     border: none;
+}
+
+#vote-controls {
+    height: 10%;
 }
 
 .neg-change {

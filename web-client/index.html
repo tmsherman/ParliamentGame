@@ -6,16 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>The King and the Crowd</title>
-    <link rel="stylesheet" type="text/css" href="/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
-    <!--
-    <style>
-        @font-face {
-            font-family: GameOver;
-            src: url(game_over.ttf);
-        }
-    </style>
-    -->
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -25,40 +16,49 @@
   </head>
 <body>
     <div id="leftcontainer">
-      <div id="statsbar">
-        <div id="login">
-          <img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png" class="twitch-connect" href="#" />
-        </div>    
+      <div id="stats-bar">
+        <div id="stats-level"></div>
       </div>
-      <img id="statssymbol" src="/img/qol.png" />
+      <img id="stats-symbol" src="/img/qol.png" />
       <div id="outcomebox"></div>
     </div>
     
     <div id="middlecontainer">
-            <img id="gameimage" src="/img/castle.png">
-            <div id="decisionbox">
-                <p class="wordbreak">Life is going… surprisingly well, especially considering that you’re in the lowest class of the kingdom. Despite your lowly status, you’re healthy, well-educated, pretty well-off. So are all your neighbors. In fact, pretty much the only thing really holding you back right now is… the king. Well, the king, the middle class, and the upper class. At this point, you don’t really need any them—you and the rest of the peasants can practically run the country yourselves! You’ll have to change your name from peasants, though. Maybe citizens?
-                <br>
-                <blue>Well, how about it? Do you want a revolution?</blue></p>
-            </div>
-
+        <div id="login">
+          <img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png" class="twitch-connect" href="#" />
+        </div>    
+        <iframe 
+            id="stream"
+            height="50%" 
+            width="100%" 
+            frameborder="0" 
+            scrolling="no"
+            allowfullscreen="true">
+        </iframe>
+            <div id="decisionbox"></div>
+            <div id="vote-controls">
             <button id="yes-btn">YES</button>
-
             <div id="timer">
                 <p>TIMER</p>
             </div>
-
             <button id="no-btn">NO</button>
+            </div>
     </div>
     
         <div id="chatbox">
-            <iframe frameborder="0" 
+            <iframe id="chat"
+                frameborder="0" 
                 scrolling="no" 
                 id="chat_embed" 
-                src="http://www.twitch.tv/colegleason/chat?darkpopout" 
                 height="100%" 
                 width="100%">
           </iframe>
         </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Twitch API -->
+    <script src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
+    <!-- Game code -->
+    <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
   </body>
 </html>

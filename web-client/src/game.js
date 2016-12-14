@@ -1,7 +1,9 @@
 var fb = require('./firebase');
+var interface = require('./interface');
+var user = require('./user');
 
 // load recent outcomes
-fb.database().ref('/outcomes').once(function(snap) {
+fb.database().ref('/outcomes').once('value', function(snap) {
 	var outcomes = snap.val();
 	outcomes.forEach(addOutcome);
 });
@@ -10,28 +12,41 @@ fb.database().ref('/outcomes').once(function(snap) {
 fb.database().ref('/outcomes').on('child_added', function(snap) {
 	addOutcome(snap.val());
 });
+var eventsRef = fb.database().ref('/events');
+eventsRef.on('child_added', function(snap) {
+	var event = snap.val();
+	interface.displayEvent(snap.key, event);
+});
 
-fb.database().ref('/events').on('child_added', newEvent);
+fb.database().ref('/state').once('value', updateResources);
+fb.database().ref('/state').on('value', updateResources);
+
+function updateResources(snap) {
+	var state = snap.val();
+	var roleToResourceMap = {
+		'peasent': 'happiness',
+		'noble': 'power',
+		'merchant': 'wealth'
+	};
+	user.getUser(function(user) {
+		var desiredResource = roleToResourceMap[user.role];
+		var percent = state.resources[desiredResource];
+		$('#stats-level').width(percent + '%');
+	});
+}
 
 function submitVote(event) {
-	var eventId = event.target.attr('name');
-	var vote = event.target.val();
-	firebase.database()
+	var eventId = $(event.target).attr('name');
+	var vote = $(event.target).val();
+	fb.database()
 	.ref('/users/' + window.twitchUsername + '/votes/' + eventId)
 	.set(vote);
+	$("#yes-btn").attr('disabled', true);
+	$("#no-btn").attr('disabled', true);
 }
 
 $("#yes-btn").click(submitVote);
 $("#no-btn").click(submitVote);
-
-function newEvent(data) {
-	var event = $("<p class='wordbreak'>");
-	event.text(data.val().description);
-	var choices = data.val().choices;
-	$("#yes-btn").attr('name', data.key).val(choices[0].name).show();
-	$("#no-btn").attr('name', data.key).val(choices[0].name).show();
-	$("#decisionbox").html(event);
-}
 
 function addOutcome(data) {
 	var outcome = $("<p>");

@@ -8,28 +8,3 @@ var config = {
 };
 var app = firebase.initializeApp(config);
 module.exports = app;
-var database = firebase.database();
-
-firebase.database().ref('/events').once('value').then(function(snapshot) {
-  var events = snapshot.val();
-  if (events.length > 0) {
-  	displayEvent(events[0], '#game');
-  }
-});
-
-function displayEvent(event, parentSelector) {
-	var eventHtml = $('<div>');
-	console.log(event);
-	eventHtml.text(event.description);
-	event.choices.forEach(function(choice) {
-		var choiceHtml = $('<button>');
-		choiceHtml.text(choice.text);
-		choiceHtml.val(choice.name);
-		choiceHtml.click(function() {
-			firebase.database().ref('/users/colegleason/votes/' + event.name).set(choice.name)
-			$(parentSelector).hide();
-		})
-		eventHtml.append(choiceHtml);
-	})
-	$(parentSelector).append(eventHtml);
-}
