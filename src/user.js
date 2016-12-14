@@ -1,5 +1,6 @@
 var fb = require('./firebase');
 var game = require('./game');
+var interface = require('./interface');
 
 var user = {};
 
@@ -16,6 +17,7 @@ module.exports.initOrLoadUser = function(username) {
 			userRef.off('value', roleListener);
 			user.role = snap.val();
 			game.loadCurrentState();
+			interface.setStatsSymbol(user.role);
 		}
 	});
 }

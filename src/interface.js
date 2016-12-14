@@ -38,7 +38,7 @@ module.exports.displayEvent = function(eventKey, event) {
 	if (moment.utc() > end) {
 		return;
 	}
-	var eventHtml = $("<p class='wordbreak'>");
+	var eventHtml = $("<p>");
 	eventHtml.text(event.description);
 	$("#yes-btn").attr('name', eventKey)
 	  .val(event.choices[0].name)
@@ -53,6 +53,7 @@ module.exports.displayEvent = function(eventKey, event) {
 module.exports.addOutcome = function(data) {
 	var outcome = $("<p>");
 	outcome.text(data.text);
+	outcome.append($('<br />'));
 	Object.keys(data.changes).forEach(function(key) {
 		var val = data.changes[key];
 		var change = $("<span>");
@@ -71,4 +72,13 @@ module.exports.disableVoteButtons = disableVoteButtons;
 
 module.exports.setStatsLevel = function(percent) {
 	$('#stats-level').height(percent + '%');
+}
+
+module.exports.setStatsSymbol = function(role) {
+	var roleToSymbolMap = {
+		'peasant': '/img/qol.png',
+		'noble': '/img/power.png',
+		'merchant': '/img/wealth.png'
+	}
+	$("#stats-symbol").src(roleToSymbolMap[role]);
 }
